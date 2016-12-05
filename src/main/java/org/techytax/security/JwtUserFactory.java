@@ -1,12 +1,12 @@
 package org.techytax.security;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.techytax.model.security.Authority;
 import org.techytax.model.security.User;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 public final class JwtUserFactory {
 
@@ -19,6 +19,7 @@ public final class JwtUserFactory {
                 user.getUsername(),
                 user.getFirstname(),
                 user.getLastname(),
+                user.getEmail(),
                 user.getPassword(),
                 mapToGrantedAuthorities(user.getAuthorities()),
                 user.getEnabled(),

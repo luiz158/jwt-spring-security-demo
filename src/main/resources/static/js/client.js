@@ -175,6 +175,12 @@ $(function () {
         });
     });
 
+    $loggedIn.click(function () {
+        $loggedIn
+                .toggleClass("text-hidden")
+                .toggleClass("text-shown");
+    });
+
     // INITIAL CALLS =============================================================
     if (getJwtToken()) {
         $login.hide();
