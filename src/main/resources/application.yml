@@ -2,12 +2,6 @@
 server:
   contextPath:
 
-# JACKSON
-spring:
-  jackson:
-    serialization:
-      INDENT_OUTPUT: true
-
 jwt:
   header: Authorization
   secret: mySecret
@@ -17,7 +11,28 @@ jwt:
       path: auth
       refresh: refresh
 
-#logging:
-#  level:
+
+spring:
+  datasource:
+    driverClassName: org.h2.Driver
+    url: jdbc:h2:tcp://localhost:9092/~/tt_db
+    password:
+    username: sa
+
+  jpa:
+    database: H2
+    generate-ddl: true
+    hibernate:
+#      ddl-auto: create-drop
+      ddl-auto: update
+
+  jackson:
+    serialization:
+      INDENT_OUTPUT: true
+      fail-on-empty-beans: false
+
+logging:
+  level:
+     org.hibernate: DEBUG
 #    org.springframework:
 #      security: DEBUG

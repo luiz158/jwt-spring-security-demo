@@ -144,6 +144,22 @@ $(function () {
         });
     });
 
+    $("#costMatchServiceBtn").click(function () {
+        $.ajax({
+            url: "/costmatches",
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            headers: createAuthorizationTokenHeader(),
+            success: function (data, textStatus, jqXHR) {
+                showResponse(jqXHR.status, JSON.stringify(data));
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                showResponse(jqXHR.status, errorThrown);
+            }
+        });
+    });    
+
     $("#adminServiceBtn").click(function () {
         $.ajax({
             url: "/protected",
