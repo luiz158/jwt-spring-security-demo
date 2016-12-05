@@ -1,8 +1,5 @@
 package org.techytax.model.security;
 
-import java.util.Date;
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -18,6 +15,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "USER")
@@ -50,7 +49,7 @@ public class User {
     private String lastname;
 
     @Column(name = "EMAIL", length = 50)
-    @NotNull
+//    @NotNull
     @Size(min = 4, max = 50)
     private String email;
 
