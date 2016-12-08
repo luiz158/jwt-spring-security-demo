@@ -26,7 +26,6 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.time.LocalDate;
-import java.util.Date;
 
 public class DepreciationHelper {
 
@@ -40,11 +39,11 @@ public class DepreciationHelper {
 		int fiscalYear = DateHelper.getFiscalYear();
 		int years = activum.getNofYearsForDepreciation();
 		if ((years > 0 && activum.getEndDate() == null && (isYearForDeprecation(activum.getStartDate(), years)))) {
-			BigDecimal maximumYearlyDepreciation = activum.getCost().getAmount().
+			BigDecimal maximumYearlyDepreciation = new BigDecimal(activum.getPurchasePrice()).
 					subtract(BigDecimal.valueOf(activum.getRemainingValue().intValue())).
 					divide(BigDecimal.valueOf(MINIMUM_NUMBER_OF_DEPRECIATION_YEARS), 2,
 					RoundingMode.HALF_UP);
-			yearlyDepreciation = activum.getCost().getAmount().subtract(BigDecimal.valueOf(activum.getRemainingValue().intValue())).divide(BigDecimal.valueOf(years), 2,
+			yearlyDepreciation = new BigDecimal(activum.getPurchasePrice()).subtract(BigDecimal.valueOf(activum.getRemainingValue().intValue())).divide(BigDecimal.valueOf(years), 2,
 					RoundingMode.HALF_UP);
 			double proportion = 1.0d;
 			if (fiscalYear == years + activum.getStartDate().getYear()) {

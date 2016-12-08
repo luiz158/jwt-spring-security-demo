@@ -2,34 +2,23 @@ package org.techytax.domain;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.Parameter;
-import org.hibernate.annotations.Type;
-import org.hibernate.annotations.TypeDef;
-import org.hibernate.annotations.TypeDefs;
-import org.jasypt.hibernate4.type.EncryptedBigDecimalType;
-import org.jasypt.hibernate4.type.EncryptedBigIntegerType;
-import org.jasypt.hibernate4.type.EncryptedStringType;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.NamedQuery;
-import javax.persistence.Table;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
 @Entity
-@NamedQuery(name = Settlement.GET, query = "SELECT s FROM Settlement s WHERE s.user = :user")
-@Table(name = "settlement")
+@NamedQuery(name = Office.GET, query = "SELECT s FROM Office s WHERE s.user = :user")
 @DiscriminatorValue("S")
 @Getter
 @Setter
-public class Settlement extends Activum {
+public class Office extends Activum {
 	
-	public static final String GET = "Settlement.GET";
+	public static final String GET = "Office.GET";
 
 	private String description;
-	
-	private BigInteger purchasePrice;
 	
 	private BigDecimal startupCosts;
 	

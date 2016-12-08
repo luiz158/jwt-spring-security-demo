@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.techytax.domain.Activum;
+import org.techytax.domain.BusinessCar;
+import org.techytax.domain.Office;
 import org.techytax.repository.ActivumRepository;
 import org.techytax.security.JwtTokenUtil;
 
@@ -35,8 +37,24 @@ public class ActivumRestController {
     }
 
     @CrossOrigin(origins = "http://localhost:5555")
-    @RequestMapping(value = "auth/activum", method = RequestMethod.POST)
+    @RequestMapping(value = "auth/activum/machine", method = RequestMethod.POST)
     public void addActivum(HttpServletRequest request, @RequestBody Activum activum) {
+        String username = getUser(request);
+        activum.setUser(username);
+        activumRepository.save(activum);
+    }
+
+    @CrossOrigin(origins = "http://localhost:5555")
+    @RequestMapping(value = "auth/activum/car", method = RequestMethod.POST)
+    public void addActivumCar(HttpServletRequest request, @RequestBody BusinessCar activum) {
+        String username = getUser(request);
+        activum.setUser(username);
+        activumRepository.save(activum);
+    }
+
+    @CrossOrigin(origins = "http://localhost:5555")
+    @RequestMapping(value = "auth/activum/office", method = RequestMethod.POST)
+    public void addActivumOffice(HttpServletRequest request, @RequestBody Office activum) {
         String username = getUser(request);
         activum.setUser(username);
         activumRepository.save(activum);

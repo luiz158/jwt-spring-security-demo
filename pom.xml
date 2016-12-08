@@ -3,13 +3,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.zerhusen</groupId>
-    <artifactId>jwtdemo</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <groupId>org.techytax</groupId>
+    <artifactId>techytax-ng2</artifactId>
+    <version>3.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>jwtdemo</name>
-    <description>Demo project for JWT with Spring Security</description>
+    <name>techytax-ng2</name>
+    <description>TechyTax Angular 2 frontend</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
