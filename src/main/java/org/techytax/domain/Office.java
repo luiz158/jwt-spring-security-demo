@@ -18,8 +18,6 @@ public class Office extends Activum {
 	
 	public static final String GET = "Office.GET";
 
-	private String description;
-	
 	private BigDecimal startupCosts;
 	
 	private int nofSquareMetersBusiness;

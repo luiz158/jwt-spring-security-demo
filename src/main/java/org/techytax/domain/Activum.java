@@ -32,6 +32,8 @@ public class Activum {
 
     private String user;
 
+    private String description;
+
     @Column(precision = 10, scale = 2)
     private BigInteger purchasePrice;
 
