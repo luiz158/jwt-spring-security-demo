@@ -37,8 +37,12 @@ public class CostMatchRestController {
         System.out.println("Hoi " + username);
         costMatch.setUser(username);
         costMatchRepository.save(costMatch);
+    }
 
-//        return costMatchRepository.findAll();
+    @CrossOrigin(origins = "http://localhost:5555")
+    @RequestMapping(value = "auth/match/{id}", method = RequestMethod.DELETE)
+    public void deleteCostMatch(HttpServletRequest request, @PathVariable Long id) {
+        costMatchRepository.delete(id);
     }
 
     private String getUser(HttpServletRequest request) {
