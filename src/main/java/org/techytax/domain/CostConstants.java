@@ -29,13 +29,12 @@ public interface CostConstants {
 
 	CostType INCOME_CURRENT_ACCOUNT = new CostType(1);
 	CostType EXPENSE_CURRENT_ACCOUNT = new CostType(2);
-	CostType EXPENSE_CURRENT_ACCOUNT_IGNORE = new CostType(3);
+
 	CostType DEPOSIT = new CostType(4);
 	CostType WITHDRAWAL = new CostType(5);
-	CostType EXPENSE_OTHER_ACCOUNT_IGNORE = new CostType(6);
+
 	CostType EXPENSE_OTHER_ACCOUNT = new CostType(7);
 	CostType TRAVEL_WITH_PUBLIC_TRANSPORT_OTHER_ACCOUNT = new CostType(8);
-	CostType TRAVEL_WITH_PUBLIC_TRANSPORT = new CostType(9);
 	CostType TO_SAVINGS_ACCOUNT = new CostType(10);
 	CostType VAT = new CostType(12);
 	CostType BUSINESS_FOOD = new CostType(13);
@@ -49,21 +48,6 @@ public interface CostConstants {
 	CostType BUSINESS_CAR_OTHER_ACCOUNT = new CostType(19);
 	CostType BUSINESS_FOOD_OTHER_ACCOUNT = new CostType(20);
 	
-	@Deprecated
-	CostType BUSINESS_TRAVEL_CREDIT_CARD = new CostType(21);
-	
-	@Deprecated
-	CostType BUSINESS_LITERATURE_CREDIT_CARD_NO_VAT = new CostType(22);
-	
-	@Deprecated
-	CostType DEPRECIATION_CAR = new CostType(23);
-	
-	@Deprecated
-	CostType FISCAL_TAX_BUSINESS_CAR_PRIVATE_USAGE = new CostType(24);
-	
-	@Deprecated
-	CostType DEPRECIATION_MACHINE = new CostType(25);
-	
 	CostType INVESTMENT_OTHER_ACCOUNT = new CostType(26);
 	CostType ADVERTORIAL = new CostType(27);
 	CostType ADVERTORIAL_NO_VAT = new CostType(28);
@@ -73,21 +57,12 @@ public interface CostConstants {
 	CostType EXPENSE_CREDIT_CARD = new CostType(32);
 	CostType INTEREST = new CostType(33);
 	
-	@Deprecated
-	CostType VAT_PAID_BACK_ON_OTHER_ACCOUNT = new CostType(34);
-	
-	@Deprecated
-	CostType VAT_CORRECTION_CAR_DEPRECIATION = new CostType(35);
-	
 	CostType VAT_CORRECTION_CAR_PRIVATE = new CostType(36);
 	CostType INVOICE_PAID = new CostType(38);
 	CostType INVOICE_SENT = new CostType(39);
 	CostType REPURCHASES = new CostType(40);
 	CostType SETTLEMENT = new CostType(41);
 	CostType SETTLEMENT_INTEREST = new CostType(42);
-	
-	@Deprecated
-	CostType DEPRECIATION_SETTLEMENT = new CostType(43);
 	
 	CostType SETTLEMENT_OTHER_ACCOUNT = new CostType(44);
 	CostType SETTLEMENT_DISCOUNT = new CostType(45);
