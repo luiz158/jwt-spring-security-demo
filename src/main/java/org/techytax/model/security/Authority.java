@@ -1,11 +1,16 @@
 package org.techytax.model.security;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
 @Table(name = "AUTHORITY")
+@Getter
+@Setter
 public class Authority {
 
     @Id
@@ -21,28 +26,4 @@ public class Authority {
 
     @ManyToMany(mappedBy = "authorities", fetch = FetchType.LAZY)
     private List<User> users;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public AuthorityName getName() {
-        return name;
-    }
-
-    public void setName(AuthorityName name) {
-        this.name = name;
-    }
-
-    public List<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<User> users) {
-        this.users = users;
-    }
 }

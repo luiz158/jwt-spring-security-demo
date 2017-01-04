@@ -3,10 +3,7 @@ package org.techytax.saas.domain;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.util.Locale;
 
 @Entity
@@ -20,7 +17,9 @@ public class Registration {
   }
 
   @Entity
-  class PersonalData {
+  @Getter
+  @Setter
+  public static class PersonalData {
     @Id
     @GeneratedValue
     Long id = 0L;
@@ -31,7 +30,9 @@ public class Registration {
   }
 
   @Entity
-  class CompanyData {
+  @Getter
+  @Setter
+  static class CompanyData {
     @Id
     @GeneratedValue
     Long id = 0L;
@@ -42,7 +43,9 @@ public class Registration {
   }
 
   @Entity
-  class FiscalData {
+  @Getter
+  @Setter
+  static class FiscalData {
     @Id
     @GeneratedValue
     Long id = 0L;
@@ -55,15 +58,16 @@ public class Registration {
   protected Long id = 0L;
 
   private String user;
+  private String password;
 
   Locale registrationDate;
 
-  @OneToOne
+  @OneToOne(cascade = {CascadeType.ALL})
   PersonalData personalData;
 
-  @OneToOne
+  @OneToOne(cascade = {CascadeType.ALL})
   CompanyData companyData;
 
-  @OneToOne
+  @OneToOne(cascade = {CascadeType.ALL})
   FiscalData fiscalData;
 }
