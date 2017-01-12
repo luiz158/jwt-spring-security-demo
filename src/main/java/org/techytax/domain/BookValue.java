@@ -2,9 +2,17 @@ package org.techytax.domain;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.Type;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import java.math.BigInteger;
 
 @Entity
@@ -18,15 +26,16 @@ import java.math.BigInteger;
 @Setter
 public class BookValue {
 
-	public static final String HISTORY = "org.techytax.domain.BookValue.HISTORY";
-	public static final String FOR_YEAR = "org.techytax.domain.BookValue.FOR_YEAR";
+	static final String HISTORY = "org.techytax.domain.BookValue.HISTORY";
+	static final String FOR_YEAR = "org.techytax.domain.BookValue.FOR_YEAR";
 	public static final String GET = "org.techytax.domain.BookValue.GET";
-	public static final String FOR_YEAR_AND_TYPES = "org.techytax.domain.BookValue.FOR_YEAR_AND_TYPES";
+	static final String FOR_YEAR_AND_TYPES = "org.techytax.domain.BookValue.FOR_YEAR_AND_TYPES";
 
 	@Id
 	@GeneratedValue
 	protected Long id = 0L;
 
+	@NotNull
 	private String user;
 
 	@Enumerated(EnumType.ORDINAL)

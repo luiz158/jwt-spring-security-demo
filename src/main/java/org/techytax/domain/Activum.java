@@ -6,6 +6,7 @@ import lombok.Setter;
 import org.techytax.helper.DepreciationHelper;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.math.BigInteger;
 import java.time.LocalDate;
 
@@ -21,15 +22,16 @@ import java.time.LocalDate;
 @Setter
 public class Activum {
 
-    public static final String NEW_ACTIVA = "Activum.NEW_ACTIVA";
-    public static final String ALL_ACTIVA = "Activum.ALL_ACTIVA";
-    public static final String ACTIVE_ACTIVA = "Activum.ACTIVE_ACTIVA";
-    public static final String ACTIVE_ACTIVA_FOR_TYPE = "Activum.ACTIVE_ACTIVA_FOR_TYPE";
+    static final String NEW_ACTIVA = "Activum.NEW_ACTIVA";
+    static final String ALL_ACTIVA = "Activum.ALL_ACTIVA";
+    static final String ACTIVE_ACTIVA = "Activum.ACTIVE_ACTIVA";
+    static final String ACTIVE_ACTIVA_FOR_TYPE = "Activum.ACTIVE_ACTIVA_FOR_TYPE";
 
     @Id
     @GeneratedValue
     protected Long id = 0L;
 
+    @NotNull
     private String user;
 
     private String description;

@@ -3,6 +3,7 @@ package org.techytax.domain;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Data
@@ -12,6 +13,7 @@ public class CostMatch {
     @GeneratedValue
     protected Long id = 0L;
 
+    @NotNull
     private String user;
     private String matchString;
 

@@ -13,7 +13,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.techytax.security.JwtAuthenticationEntryPoint;
 import org.techytax.security.JwtAuthenticationTokenFilter;
 
@@ -49,29 +48,28 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
-                // we don't need CSRF because our token is invulnerable
-                .csrf().disable()
+          .cors().disable()
+          // we don't need CSRF because our token is invulnerable
+          .csrf().disable()
 
-                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+          .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
 
-                // don't create session
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+          // don't create session
+          .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 
-                .authorizeRequests()
-                //.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-
-                // allow anonymous resource requests
-                .antMatchers(
-                        HttpMethod.GET,
-                        "/",
-                        "/*.html",
-                        "/favicon.ico",
-                        "/**/*.html",
-                        "/**/*.css",
-                        "/**/*.js"
-                ).permitAll()
-                .antMatchers("/auth/**").permitAll().anyRequest().authenticated().and().authorizeRequests()
-                .antMatchers("/register").permitAll().anyRequest().anonymous();
+          .authorizeRequests()
+          .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+          // allow anonymous resource requests
+          .antMatchers(
+            HttpMethod.GET,
+            "/*.html",
+            "/favicon.ico",
+            "/**/*.html",
+            "/**/*.css",
+            "/**/*.js"
+          ).permitAll()
+          .antMatchers("/register").permitAll()
+          .antMatchers("/auth/**").permitAll();
 
 //        httpSecurity.authorizeRequests().antMatchers("/").permitAll().and()
 //                .authorizeRequests().antMatchers("/console/**").permitAll().anyRequest().anonymous();
