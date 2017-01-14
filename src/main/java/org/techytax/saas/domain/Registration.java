@@ -3,8 +3,12 @@ package org.techytax.saas.domain;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
-import java.util.Locale;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -60,7 +64,7 @@ public class Registration {
   private String user;
   private String password;
 
-  Locale registrationDate;
+  LocalDate registrationDate;
 
   @OneToOne(cascade = {CascadeType.ALL})
   PersonalData personalData;

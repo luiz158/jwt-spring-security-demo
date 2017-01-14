@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Data
@@ -15,6 +16,9 @@ public class CostMatch {
 
     @NotNull
     private String user;
+
+    @NotNull
+    @Size(min = 2, max = 50)
     private String matchString;
 
     @ManyToOne

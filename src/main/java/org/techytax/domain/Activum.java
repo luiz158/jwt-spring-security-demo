@@ -7,6 +7,7 @@ import org.techytax.helper.DepreciationHelper;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDate;
 
@@ -37,7 +38,7 @@ public class Activum {
     private String description;
 
     @Column(precision = 10, scale = 2)
-    private BigInteger purchasePrice;
+    private BigDecimal purchasePrice;
 
     @Column(precision = 10, scale = 2)
     private BigInteger remainingValue;

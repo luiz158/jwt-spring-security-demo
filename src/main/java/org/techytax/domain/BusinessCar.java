@@ -6,12 +6,10 @@ import lombok.Setter;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.NamedQuery;
-import javax.persistence.Table;
 import java.math.BigInteger;
 
 @Entity
 @NamedQuery(name = BusinessCar.GET, query = "SELECT c FROM BusinessCar c WHERE c.user = :user")
-@Table(name = "businesscar")
 @DiscriminatorValue("C")
 @Getter
 @Setter
