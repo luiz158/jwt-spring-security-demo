@@ -61,6 +61,30 @@ public class ActivumRestController {
     }
 
     @CrossOrigin(origins = "http://localhost:5555")
+    @RequestMapping(value = "auth/activum/machine", method = RequestMethod.PUT)
+    public void updateActivum(HttpServletRequest request, @RequestBody Activum activum) {
+        String username = getUser(request);
+        activum.setUser(username);
+        activumRepository.save(activum);
+    }
+
+    @CrossOrigin(origins = "http://localhost:5555")
+    @RequestMapping(value = "auth/activum/car", method = RequestMethod.PUT)
+    public void updateActivumCar(HttpServletRequest request, @RequestBody BusinessCar activum) {
+        String username = getUser(request);
+        activum.setUser(username);
+        activumRepository.save(activum);
+    }
+
+    @CrossOrigin(origins = "http://localhost:5555")
+    @RequestMapping(value = "auth/activum/office", method = RequestMethod.PUT)
+    public void updateActivumOffice(HttpServletRequest request, @RequestBody Office activum) {
+        String username = getUser(request);
+        activum.setUser(username);
+        activumRepository.save(activum);
+    }
+
+    @CrossOrigin(origins = "http://localhost:5555")
     @RequestMapping(value = "auth/activum/{id}", method = RequestMethod.DELETE)
     public void deleteActivum(HttpServletRequest request, @PathVariable Long id) {
         activumRepository.delete(id);
