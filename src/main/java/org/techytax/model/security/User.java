@@ -38,7 +38,7 @@ public class User {
 
     @Column(name = "LASTNAME", length = 50)
     @NotNull
-    @Size(min = 4, max = 50)
+    @Size(min = 2, max = 50)
     private String lastname;
 
     @Column(name = "EMAIL", length = 50)
