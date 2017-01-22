@@ -37,48 +37,24 @@ public class ActivumRestController {
     }
 
     @CrossOrigin(origins = "http://localhost:5555")
-    @RequestMapping(value = "auth/activum/machine", method = RequestMethod.POST)
-    public void addActivum(HttpServletRequest request, @RequestBody Activum activum) {
+    @RequestMapping(value = "auth/activum/machine", method = { RequestMethod.PUT, RequestMethod.POST })
+    public void saveActivum(HttpServletRequest request, @RequestBody Activum activum) {
         String username = getUser(request);
         activum.setUser(username);
         activumRepository.save(activum);
     }
 
     @CrossOrigin(origins = "http://localhost:5555")
-    @RequestMapping(value = "auth/activum/car", method = RequestMethod.POST)
-    public void addActivumCar(HttpServletRequest request, @RequestBody BusinessCar activum) {
+    @RequestMapping(value = "auth/activum/car", method = { RequestMethod.PUT, RequestMethod.POST })
+    public void saveActivumCar(HttpServletRequest request, @RequestBody BusinessCar activum) {
         String username = getUser(request);
         activum.setUser(username);
         activumRepository.save(activum);
     }
 
     @CrossOrigin(origins = "http://localhost:5555")
-    @RequestMapping(value = "auth/activum/office", method = RequestMethod.POST)
-    public void addActivumOffice(HttpServletRequest request, @RequestBody Office activum) {
-        String username = getUser(request);
-        activum.setUser(username);
-        activumRepository.save(activum);
-    }
-
-    @CrossOrigin(origins = "http://localhost:5555")
-    @RequestMapping(value = "auth/activum/machine", method = RequestMethod.PUT)
-    public void updateActivum(HttpServletRequest request, @RequestBody Activum activum) {
-        String username = getUser(request);
-        activum.setUser(username);
-        activumRepository.save(activum);
-    }
-
-    @CrossOrigin(origins = "http://localhost:5555")
-    @RequestMapping(value = "auth/activum/car", method = RequestMethod.PUT)
-    public void updateActivumCar(HttpServletRequest request, @RequestBody BusinessCar activum) {
-        String username = getUser(request);
-        activum.setUser(username);
-        activumRepository.save(activum);
-    }
-
-    @CrossOrigin(origins = "http://localhost:5555")
-    @RequestMapping(value = "auth/activum/office", method = RequestMethod.PUT)
-    public void updateActivumOffice(HttpServletRequest request, @RequestBody Office activum) {
+    @RequestMapping(value = "auth/activum/office", method = { RequestMethod.PUT, RequestMethod.POST })
+    public void saveActivumOffice(HttpServletRequest request, @RequestBody Office activum) {
         String username = getUser(request);
         activum.setUser(username);
         activumRepository.save(activum);
