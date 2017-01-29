@@ -31,10 +31,9 @@ public class CostMatchRestController {
     }
 
     @CrossOrigin(origins = "http://localhost:5555")
-    @RequestMapping(value = "auth/match", method = RequestMethod.POST)
-    public void addCostMatch(HttpServletRequest request, @RequestBody CostMatch costMatch) {
+    @RequestMapping(value = "auth/match", method = { RequestMethod.PUT, RequestMethod.POST })
+    public void saveCostMatch(HttpServletRequest request, @RequestBody CostMatch costMatch) {
         String username = getUser(request);
-        System.out.println("Hoi " + username);
         costMatch.setUser(username);
         costMatchRepository.save(costMatch);
     }
