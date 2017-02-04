@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Entity
@@ -31,25 +33,43 @@ public class Registration {
     String prefix;
     String surname;
     String email;
+
+    public String getFullName() {
+      StringBuffer sb = new StringBuffer();
+      if (surname != null) {
+        sb.append(initials);
+        if (prefix != null) {
+          sb.append(" ");
+          sb.append(prefix);
+        }
+        sb.append(" ");
+        sb.append(surname);
+        return sb.toString();
+      } else {
+        return "user";
+      }
+    }
   }
 
   @Entity
   @Getter
   @Setter
-  static class CompanyData {
+  public static class CompanyData {
     @Id
     @GeneratedValue
     Long id = 0L;
+    String companyName;
     String address;
     String zipCode;
     String city;
+    String accountNumber;
     Long chamberOfCommerceNumber;
   }
 
   @Entity
   @Getter
   @Setter
-  static class FiscalData {
+  public static class FiscalData {
     @Id
     @GeneratedValue
     Long id = 0L;
@@ -61,7 +81,10 @@ public class Registration {
   @GeneratedValue
   protected Long id = 0L;
 
+  @NotNull
   private String user;
+
+  @Transient
   private String password;
 
   LocalDate registrationDate;

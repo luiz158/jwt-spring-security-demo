@@ -26,7 +26,6 @@ public class CostMatchRestController {
     @RequestMapping(value = "auth/costmatches", method = RequestMethod.GET)
     public Collection<CostMatch> getCostMatches(HttpServletRequest request) {
         String username = getUser(request);
-        System.out.println("Hoi " + username);
         return costMatchRepository.findByUser(username);
     }
 
