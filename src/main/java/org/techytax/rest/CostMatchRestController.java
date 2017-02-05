@@ -23,7 +23,7 @@ public class CostMatchRestController {
     private CostMatchRepository costMatchRepository;
 
     @CrossOrigin(origins = "http://localhost:5555")
-    @RequestMapping(value = "auth/costmatches", method = RequestMethod.GET)
+    @RequestMapping(value = "auth/match", method = RequestMethod.GET)
     public Collection<CostMatch> getCostMatches(HttpServletRequest request) {
         String username = getUser(request);
         return costMatchRepository.findByUser(username);

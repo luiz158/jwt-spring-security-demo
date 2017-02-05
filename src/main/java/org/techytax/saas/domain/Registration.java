@@ -46,7 +46,7 @@ public class Registration {
         sb.append(surname);
         return sb.toString();
       } else {
-        return "user";
+        return "";
       }
     }
   }
@@ -64,6 +64,18 @@ public class Registration {
     String city;
     String accountNumber;
     Long chamberOfCommerceNumber;
+
+    public String getFullAddress() {
+      StringBuffer sb = new StringBuffer();
+      sb.append(address);
+      if (zipCode != null) {
+        sb.append(", ");
+        sb.append(zipCode);
+      }
+      sb.append(", ");
+      sb.append(city);
+      return sb.toString();
+    }
   }
 
   @Entity
