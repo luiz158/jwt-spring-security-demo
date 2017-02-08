@@ -85,7 +85,7 @@ public class Registration {
     @Id
     @GeneratedValue
     Long id = 0L;
-    Long vatNumber;
+    String vatNumber;
     DeclationPeriod declarationPeriod;
   }
 

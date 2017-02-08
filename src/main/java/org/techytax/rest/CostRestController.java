@@ -21,11 +21,15 @@ public class CostRestController {
     @Value("${jwt.header}")
     private String tokenHeader;
 
-    @Autowired
-    private JwtTokenUtil jwtTokenUtil;
+    private final JwtTokenUtil jwtTokenUtil;
+
+    private final CostRepository costRepository;
 
     @Autowired
-    private CostRepository costRepository;
+    public CostRestController(JwtTokenUtil jwtTokenUtil, CostRepository costRepository) {
+        this.jwtTokenUtil = jwtTokenUtil;
+        this.costRepository = costRepository;
+    }
 
     @CrossOrigin(origins = "http://localhost:5555")
     @RequestMapping(value = "auth/costs", method = RequestMethod.GET)
@@ -38,8 +42,6 @@ public class CostRestController {
     @CrossOrigin(origins = "http://localhost:5555")
     @RequestMapping(value = "auth/costs/{id}", method = RequestMethod.GET)
     public Cost getCost(HttpServletRequest request, @PathVariable Long id) {
-        String username = getUser(request);
-        System.out.println("Hoi " + username);
         return costRepository.getOne(id);
     }
 
@@ -47,11 +49,8 @@ public class CostRestController {
     @RequestMapping(value = "auth/cost", method = RequestMethod.POST)
     public void addCost(HttpServletRequest request, @RequestBody Cost cost) {
         String username = getUser(request);
-        System.out.println("Hoi " + username);
         cost.setUser(username);
         costRepository.save(cost);
-
-//        return costMatchRepository.findAll();
     }
 
     @CrossOrigin(origins = "http://localhost:5555")

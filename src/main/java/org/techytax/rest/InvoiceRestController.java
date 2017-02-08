@@ -2,6 +2,10 @@ package org.techytax.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -9,10 +13,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.techytax.domain.Invoice;
+import org.techytax.invoice.InvoiceCreator;
 import org.techytax.repository.InvoiceRepository;
+import org.techytax.saas.domain.Registration;
+import org.techytax.saas.repository.RegistrationRepository;
 import org.techytax.security.JwtTokenUtil;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Collection;
 
 @RestController
@@ -21,11 +31,20 @@ public class InvoiceRestController {
     @Value("${jwt.header}")
     private String tokenHeader;
 
-    @Autowired
-    private JwtTokenUtil jwtTokenUtil;
+    private final JwtTokenUtil jwtTokenUtil;
+
+    private final InvoiceRepository invoiceRepository;
+
+    private InvoiceCreator invoiceCreator;
+    private RegistrationRepository registrationRepository;
 
     @Autowired
-    private InvoiceRepository invoiceRepository;
+    public InvoiceRestController(JwtTokenUtil jwtTokenUtil, InvoiceRepository invoiceRepository, InvoiceCreator invoiceCreator, RegistrationRepository registrationRepository) {
+        this.jwtTokenUtil = jwtTokenUtil;
+        this.invoiceRepository = invoiceRepository;
+        this.invoiceCreator = invoiceCreator;
+        this.registrationRepository = registrationRepository;
+    }
 
     @CrossOrigin(origins = "http://localhost:5555")
     @RequestMapping(value = "auth/invoice", method = RequestMethod.GET)
@@ -40,6 +59,27 @@ public class InvoiceRestController {
         String username = getUser(request);
         invoice.setUser(username);
         invoiceRepository.save(invoice);
+    }
+
+    @CrossOrigin(origins = "http://localhost:5555")
+    @RequestMapping(value = "auth/invoice/{id}", method = RequestMethod.GET)
+    public ResponseEntity<byte[]> createInvoicePdf(HttpServletRequest request, @PathVariable Long id) throws IOException {
+        Invoice invoice = invoiceRepository.findOne(id);
+        String username = getUser(request);
+        Registration registration = registrationRepository.findByUser(username).stream().findFirst().get();
+        byte[] contents = invoiceCreator.createPdfInvoice(invoice, registration);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.parseMediaType("application/pdf"));
+        String filename = "output.pdf";
+        headers.setAccessControlAllowOrigin("http://localhost:5555");
+        headers.setContentDispositionFormData(filename, filename);
+        headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+        ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(contents, headers, HttpStatus.OK);
+        OutputStream out = new FileOutputStream("out.pdf");
+        out.write(contents);
+        out.close();
+        return response;
     }
 
     @CrossOrigin(origins = "http://localhost:5555")
