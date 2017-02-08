@@ -26,9 +26,11 @@ public class Project {
 	@NotNull
 	private String user;
 
+	@NotNull
 	@ManyToOne
 	private Customer customer;
 
+	@NotNull
 	private String code;
 	
 	private String projectDescription;

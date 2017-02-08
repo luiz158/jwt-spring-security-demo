@@ -35,6 +35,12 @@ public class CustomerRestController {
     }
 
     @CrossOrigin(origins = "http://localhost:5555")
+    @RequestMapping(value = "auth/customer/{id}", method = RequestMethod.GET)
+    public Customer getCustomer(HttpServletRequest request, @PathVariable Long id) {
+        return customerRepository.findOne(id);
+    }
+
+    @CrossOrigin(origins = "http://localhost:5555")
     @RequestMapping(value = "auth/customer", method = { RequestMethod.PUT, RequestMethod.POST })
     public void saveCustomer(HttpServletRequest request, @RequestBody Customer customer) {
         String username = getUser(request);
