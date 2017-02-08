@@ -35,6 +35,12 @@ public class ProjectRestController {
     }
 
     @CrossOrigin(origins = "http://localhost:5555")
+    @RequestMapping(value = "auth/project/{id}", method = RequestMethod.GET)
+    public Project getProject(HttpServletRequest request, @PathVariable Long id) {
+        return projectRepository.findOne(id);
+    }
+
+    @CrossOrigin(origins = "http://localhost:5555")
     @RequestMapping(value = "auth/project", method = { RequestMethod.PUT, RequestMethod.POST })
     public void saveProject(HttpServletRequest request, @RequestBody Project project) {
         String username = getUser(request);

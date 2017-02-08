@@ -21,8 +21,12 @@ public class Invoice {
     @NotNull
     private String user;
 
+    @NotNull
     @ManyToOne
     private Project project;
+
+    @NotNull
+    private String invoiceNumber;
 
     private float unitsOfWork;
     private int discountPercentage;
