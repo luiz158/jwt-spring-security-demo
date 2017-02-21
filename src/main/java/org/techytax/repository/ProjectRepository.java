@@ -1,11 +1,11 @@
 package org.techytax.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
 import org.techytax.domain.Project;
 
 import java.util.Collection;
 
-public interface ProjectRepository extends JpaRepository<Project, Long> {
+public interface ProjectRepository extends CrudRepository<Project, Long> {
 
     Collection<Project> findByUser(String username);
 }
