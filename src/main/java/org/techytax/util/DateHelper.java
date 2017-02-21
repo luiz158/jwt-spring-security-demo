@@ -9,7 +9,11 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
 
 public class DateHelper {
 
@@ -88,29 +92,12 @@ public class DateHelper {
 	}
 
 	public static FiscalPeriod getPeriodPreviousYear() {
-		Calendar cal = new GregorianCalendar();
-		cal.setTime(new Date());
-		cal.add(Calendar.YEAR, -1);
-		cal.set(Calendar.MONTH, Calendar.JANUARY);
-		cal.set(Calendar.DAY_OF_MONTH, 1);
-		Date beginDatum = cal.getTime();
-		cal.set(Calendar.MONTH, Calendar.DECEMBER);
-		cal.set(Calendar.DAY_OF_MONTH, 31);
-		Date eindDatum = cal.getTime();
-		return new FiscalPeriod(beginDatum, eindDatum);
+		return new FiscalPeriod(LocalDate.now().minusYears(1).withDayOfYear(1), LocalDate.now().withDayOfYear(1).minusDays(1));
 	}
 
 	public static FiscalPeriod getLastVatPeriodPreviousYear() {
-		Calendar cal = new GregorianCalendar();
-		cal.setTime(new Date());
-		cal.add(Calendar.YEAR, -1);
-		cal.set(Calendar.MONTH, Calendar.OCTOBER);
-		cal.set(Calendar.DAY_OF_MONTH, 1);
-		Date beginDatum = cal.getTime();
-		cal.set(Calendar.MONTH, Calendar.DECEMBER);
-		cal.set(Calendar.DAY_OF_MONTH, 31);
-		Date eindDatum = cal.getTime();
-		return new FiscalPeriod(beginDatum, eindDatum);	}
+		return new FiscalPeriod(LocalDate.now().minusYears(1).withMonth(10).withDayOfMonth(1), LocalDate.now().withDayOfYear(1).minusDays(1));
+	}
 
 	public static FiscalPeriod getLatestVatPeriod(VatPeriodType vatPeriodType) {
 		FiscalPeriod period = null;
@@ -143,7 +130,8 @@ public class DateHelper {
 		cal.set(Calendar.MONTH, lastMonth);
 		cal.set(Calendar.DAY_OF_MONTH, 0);
 		Date eindDatum = cal.getTime();
-		return new FiscalPeriod(beginDatum, eindDatum);
+//		return new FiscalPeriod(beginDatum, eindDatum);
+		return null;
 	}
 
 	public static Date getLastDayOfFirstMonthOfNextQuarter(Date date) {
@@ -210,7 +198,8 @@ public class DateHelper {
 		cal.setTime(new Date());
 		cal.add(Calendar.DAY_OF_MONTH, 1);
 		Date eindDatum = cal.getTime();
-		return new FiscalPeriod(beginDatum, eindDatum);
+//		return new FiscalPeriod(beginDatum, eindDatum);
+		return null;
 	}
 
 	private static int getQuarter(int month) {
@@ -290,7 +279,8 @@ public class DateHelper {
 		cal.set(Calendar.MONTH, 0);
 		cal.set(Calendar.DAY_OF_MONTH, 1);
 		Date beginDatum = cal.getTime();
-		return new FiscalPeriod(beginDatum, eindDatum);
+//		return new FiscalPeriod(beginDatum, eindDatum);
+		return null;
 	}
 
 	public static String getInvoiceDateString(Date date) {

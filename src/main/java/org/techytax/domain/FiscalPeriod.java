@@ -22,13 +22,13 @@ package org.techytax.domain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
 public class FiscalPeriod {
 
-	private Date beginDate;
-	private Date endDate;
+	private LocalDate beginDate;
+	private LocalDate endDate;
 	
 }
