@@ -293,52 +293,6 @@ public class DateHelper {
 		return returnValue;
 	}
 
-	public static String getMaand(Date date) {
-		Calendar cal = GregorianCalendar.getInstance();
-		cal.setTime(date);
-		int maand = cal.get(Calendar.MONTH);
-		String maandString = null;
-		switch (maand) {
-		case 0:
-			maandString = "januari";
-			break;
-		case 1:
-			maandString = "februari";
-			break;
-		case 2:
-			maandString = "maart";
-			break;
-		case 3:
-			maandString = "april";
-			break;
-		case 4:
-			maandString = "mei";
-			break;
-		case 5:
-			maandString = "juni";
-			break;
-		case 6:
-			maandString = "juli";
-			break;
-		case 7:
-			maandString = "augustus";
-			break;
-		case 8:
-			maandString = "september";
-			break;
-		case 9:
-			maandString = "oktober";
-			break;
-		case 10:
-			maandString = "november";
-			break;
-		case 11:
-			maandString = "december";
-			break;
-		}
-		return maandString;
-	}
-
 	public static List<Integer> getLatestSevenYears() {
 		List<Integer> yearList = new ArrayList<>();
 		int yearInt = getCurrentYear();
