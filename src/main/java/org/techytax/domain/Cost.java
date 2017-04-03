@@ -43,6 +43,7 @@ public class Cost {
 	private BigDecimal amount;
 
 	@Column(precision = 10, scale = 2)
+	// TODO: in subclass? anders overbodig in fiscal overview
 	private BigDecimal vat = BigDecimal.ZERO;
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd")
@@ -51,6 +52,7 @@ public class Cost {
 	@ManyToOne
 	private CostType costType;
 
+	@Column(length = 500)
 	private String description;
 
 	public long getCostTypeId() {

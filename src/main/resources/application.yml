@@ -30,6 +30,7 @@ spring:
     serialization:
       INDENT_OUTPUT: true
       fail-on-empty-beans: false
+      WRITE_DATES_AS_TIMESTAMPS: false
 
 logging:
   level:

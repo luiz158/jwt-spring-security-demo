@@ -42,12 +42,12 @@ public class CostRestController {
     @CrossOrigin(origins = "http://localhost:5555")
     @RequestMapping(value = "auth/costs/{id}", method = RequestMethod.GET)
     public Cost getCost(HttpServletRequest request, @PathVariable Long id) {
-        return costRepository.getOne(id);
+        return costRepository.findOne(id);
     }
 
     @CrossOrigin(origins = "http://localhost:5555")
-    @RequestMapping(value = "auth/cost", method = RequestMethod.POST)
-    public void addCost(HttpServletRequest request, @RequestBody Cost cost) {
+    @RequestMapping(value = "auth/cost", method = { RequestMethod.PUT, RequestMethod.POST })
+    public void saveCost(HttpServletRequest request, @RequestBody Cost cost) {
         String username = getUser(request);
         cost.setUser(username);
         costRepository.save(cost);

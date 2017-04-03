@@ -35,6 +35,7 @@ public interface CostConstants {
 
 	CostType EXPENSE_OTHER_ACCOUNT = new CostType(7);
 	CostType TRAVEL_WITH_PUBLIC_TRANSPORT_OTHER_ACCOUNT = new CostType(8);
+	CostType TRAVEL_WITH_PUBLIC_TRANSPORT = new CostType(9);
 	CostType TO_SAVINGS_ACCOUNT = new CostType(10);
 	CostType VAT = new CostType(12);
 	CostType BUSINESS_FOOD = new CostType(13);
@@ -69,15 +70,9 @@ public interface CostConstants {
 	CostType INCOME_CURRENT_ACCOUNT_IGNORE = new CostType(46);
 	CostType EXPENSE_INSIDE_EU = new CostType(47);
 
-    /**
-	 * http://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/zakelijk/winst/inkomstenbelasting/verandering_inkomstenbelasting_vorige_jaren/veranderingen_inkomstenbelasting_2015/oudedagsreserve_2015
-     */
-	BigInteger MAXIMALE_FOR = BigInteger.valueOf(8631);
+	BigInteger MAXIMALE_FOR = BigInteger.valueOf(8774);
 	BigDecimal FOR_PERCENTAGE = BigDecimal.valueOf(0.098f);
 
-    /**
-     * http://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/zakelijk/winst/inkomstenbelasting/inkomstenbelasting_voor_ondernemers/zakelijke_kosten/aftrek_van_kosten
-     */
 	float FOOD_TAXFREE_PERCENTAGE = 0.735f;
 	
 	int INVESTMENT_MINIMUM_AMOUNT = 450;

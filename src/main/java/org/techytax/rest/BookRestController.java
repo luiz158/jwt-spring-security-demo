@@ -35,8 +35,8 @@ public class BookRestController {
     }
 
     @CrossOrigin(origins = "http://localhost:5555")
-    @RequestMapping(value = "auth/book", method = RequestMethod.POST)
-    public void addBookValue(HttpServletRequest request, @RequestBody BookValue bookValue) {
+    @RequestMapping(value = "auth/book", method = { RequestMethod.PUT, RequestMethod.POST })
+    public void saveBookValue(HttpServletRequest request, @RequestBody BookValue bookValue) {
         String username = getUser(request);
         bookValue.setUser(username);
         bookRepository.save(bookValue);

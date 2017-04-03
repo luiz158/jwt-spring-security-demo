@@ -36,7 +36,7 @@ public class DepreciationHelper {
 
 	public BigInteger getDepreciation(Activum activum) {
 		BigDecimal yearlyDepreciation = BigDecimal.ZERO;
-		int fiscalYear = DateHelper.getFiscalYear();
+		int fiscalYear = LocalDate.now().minusYears(1).getYear();
 		int years = activum.getNofYearsForDepreciation();
 		if ((years > 0 && activum.getEndDate() == null && (isYearForDeprecation(activum.getStartDate(), years)))) {
 			BigDecimal maximumYearlyDepreciation = activum.getPurchasePrice().
@@ -63,7 +63,7 @@ public class DepreciationHelper {
 		if (startDate.getMonth().getValue() > 0) {
 			years++;
 		}
-		return DateHelper.getFiscalYear() >= startDate.getYear() || DateHelper.getFiscalYear() > years + startDate.getYear();
+		return DateHelper.getFiscalYear() >= startDate.getYear() && DateHelper.getFiscalYear() <= years + startDate.getYear();
 	}
 
 }
