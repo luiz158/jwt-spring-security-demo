@@ -60,8 +60,11 @@ public class Activum {
     }
 
     public BigInteger getDepreciation() {
-        DepreciationHelper depreciationHelper = new DepreciationHelper();
-        return depreciationHelper.getDepreciation(this);
+        return DepreciationHelper.getDepreciation(this);
+    }
+
+    public BigInteger getValueAtEndOfFiscalYear() {
+        return DepreciationHelper.getValueAtEndOfFiscalYear(this);
     }
 
 }

@@ -34,7 +34,7 @@ public class DepreciationHelper {
 	 */
 	private static final int MINIMUM_NUMBER_OF_DEPRECIATION_YEARS = 5;
 
-	public BigInteger getDepreciation(Activum activum) {
+	public static BigInteger getDepreciation(Activum activum) {
 		BigDecimal yearlyDepreciation = BigDecimal.ZERO;
 		int fiscalYear = LocalDate.now().minusYears(1).getYear();
 		int years = activum.getNofYearsForDepreciation();
@@ -59,7 +59,53 @@ public class DepreciationHelper {
 		return AmountHelper.roundToInteger(yearlyDepreciation);
 	}
 
-	private boolean isYearForDeprecation(LocalDate startDate, int years) {
+	public static BigInteger getValueAtEndOfFiscalYear(Activum activum) {
+		boolean isFullyDeprecated;
+		int fiscalYear = LocalDate.now().minusYears(1).getYear();
+		int years = activum.getNofYearsForDepreciation();
+		BigDecimal yearlyDepreciation;
+
+		isFullyDeprecated = years == 0
+			|| activum.getStartDate().plusYears(years).getYear() < fiscalYear
+			|| (activum.getEndDate() != null && activum.getEndDate().getYear() < fiscalYear);
+
+		if (isFullyDeprecated) {
+			return activum.getRemainingValue();
+		} else {
+			BigDecimal maximumYearlyDepreciation = activum.getPurchasePrice().
+				subtract(BigDecimal.valueOf(activum.getRemainingValue().intValue())).
+				divide(BigDecimal.valueOf(MINIMUM_NUMBER_OF_DEPRECIATION_YEARS), 2,
+					RoundingMode.HALF_UP);
+			yearlyDepreciation = activum.getPurchasePrice().subtract(BigDecimal.valueOf(activum.getRemainingValue().intValue())).divide(BigDecimal.valueOf(years), 2,
+				RoundingMode.HALF_UP);
+			if (yearlyDepreciation.compareTo(maximumYearlyDepreciation) == 1) {
+				yearlyDepreciation = maximumYearlyDepreciation;
+			}
+
+			BigDecimal deprecatedValue = activum.getPurchasePrice();
+			BigDecimal depreciationForYear;
+			int endYear = fiscalYear;
+			if (activum.getEndDate() != null && activum.getEndDate().getYear() < fiscalYear) {
+				endYear = activum.getEndDate().getYear();
+			}
+			for (int year = activum.getStartDate().getYear(); year <= endYear; year++) {
+				double proportion = 1.0d;
+				if (((year == fiscalYear && year == activum.getStartDate().getYear()) || year == activum.getStartDate().getYear()) && activum.getEndDate() == null) {
+					proportion = 1.0d - activum.getStartDate().getMonthValue() / 12.0d;
+				} else if (activum.getEndDate() != null && year == activum.getEndDate().getYear() && year != activum.getStartDate().getYear()) {
+					proportion = activum.getStartDate().getMonthValue() / 12.0d;
+				} else if (activum.getEndDate() != null && year == activum.getEndDate().getYear() && year == activum.getStartDate().getYear()) {
+					proportion = (activum.getEndDate().getMonthValue() - activum.getStartDate().getMonthValue()) / 12.0d;
+				}
+				depreciationForYear = yearlyDepreciation.multiply(BigDecimal.valueOf(proportion));
+				deprecatedValue = deprecatedValue.subtract(depreciationForYear);
+			}
+
+			return AmountHelper.roundToInteger(deprecatedValue);
+		}
+	}
+
+	private static boolean isYearForDeprecation(LocalDate startDate, int years) {
 		if (startDate.getMonth().getValue() > 0) {
 			years++;
 		}
