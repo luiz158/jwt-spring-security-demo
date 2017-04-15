@@ -4,9 +4,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.techytax.domain.Activum;
+import org.techytax.domain.BalanceType;
+import org.techytax.domain.BusinessCar;
 import org.techytax.domain.Cost;
 import org.techytax.domain.CostConstants;
 import org.techytax.helper.AmountHelper;
+import org.techytax.repository.ActivumRepository;
 import org.techytax.repository.CostRepository;
 
 import java.math.BigDecimal;
@@ -23,6 +27,10 @@ class CompanyCosts {
   @Autowired
   @JsonIgnore
   private CostRepository costRepository;
+
+  @Autowired
+  @JsonIgnore
+  private ActivumRepository activumRepository;
 
   private BigInteger carAndTransportCosts = ZERO;
   private BigInteger otherCosts = ZERO;
@@ -45,6 +53,11 @@ class CompanyCosts {
     for (Cost cost: carCostList) {
       totalBusinessCarCosts = totalBusinessCarCosts.add(cost.getAmount());
     }
+    Collection<Activum> carList = activumRepository.findActivums(username, BalanceType.CAR, LocalDate.now().minusYears(1).withDayOfYear(1), LocalDate.now().withDayOfYear(1).minusDays(1));
+    for (Activum activum: carList) {
+      totalBusinessCarCosts = totalBusinessCarCosts.add(BigDecimal.valueOf((((BusinessCar)activum).getVatCorrectionForPrivateUsage()).intValue()));
+    }
+
     carAndTransportCosts = AmountHelper.roundToInteger(totalBusinessCarCosts.add(totalTransportCosts));
     officeCostList = costRepository.findCosts(username, CostConstants.SETTLEMENT, LocalDate.now().minusYears(1).withDayOfYear(1), LocalDate.now().withDayOfYear(1).minusDays(1));
     BigDecimal totalOfficeCosts = BigDecimal.ZERO;
