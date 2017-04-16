@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.time.LocalDate;
 import java.util.Collection;
 
 @RestController
@@ -54,10 +55,18 @@ public class InvoiceRestController {
     }
 
     @CrossOrigin(origins = "http://localhost:5555")
+    @RequestMapping(value = "auth/invoice/latest-period", method = RequestMethod.GET)
+    public Collection<Invoice> getInvoicesForLatestPeriod(HttpServletRequest request) {
+        String username = getUser(request);
+        return invoiceRepository.findInvoices(username, LocalDate.now().minusMonths(4).withDayOfMonth(1), LocalDate.now().withDayOfMonth(1).minusDays(1));
+    }
+
+    @CrossOrigin(origins = "http://localhost:5555")
     @RequestMapping(value = "auth/invoice", method = { RequestMethod.PUT, RequestMethod.POST })
     public void saveInvoice(HttpServletRequest request, @RequestBody Invoice invoice) {
         String username = getUser(request);
         invoice.setUser(username);
+        invoice.setSent(LocalDate.now());
         invoiceRepository.save(invoice);
     }
 
