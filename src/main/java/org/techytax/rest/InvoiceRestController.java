@@ -47,21 +47,18 @@ public class InvoiceRestController {
         this.registrationRepository = registrationRepository;
     }
 
-    @CrossOrigin(origins = "http://localhost:5555")
     @RequestMapping(value = "auth/invoice", method = RequestMethod.GET)
     public Collection<Invoice> getInvoices(HttpServletRequest request) {
         String username = getUser(request);
         return invoiceRepository.findByUser(username);
     }
 
-    @CrossOrigin(origins = "http://localhost:5555")
     @RequestMapping(value = "auth/invoice/latest-period", method = RequestMethod.GET)
     public Collection<Invoice> getInvoicesForLatestPeriod(HttpServletRequest request) {
         String username = getUser(request);
         return invoiceRepository.findInvoices(username, LocalDate.now().minusMonths(4).withDayOfMonth(1), LocalDate.now().withDayOfMonth(1).minusDays(1));
     }
 
-    @CrossOrigin(origins = "http://localhost:5555")
     @RequestMapping(value = "auth/invoice", method = { RequestMethod.PUT, RequestMethod.POST })
     public void saveInvoice(HttpServletRequest request, @RequestBody Invoice invoice) {
         String username = getUser(request);
@@ -70,7 +67,6 @@ public class InvoiceRestController {
         invoiceRepository.save(invoice);
     }
 
-    @CrossOrigin(origins = "http://localhost:5555")
     @RequestMapping(value = "auth/invoice/{id}", method = RequestMethod.GET)
     public ResponseEntity<byte[]> createInvoicePdf(HttpServletRequest request, @PathVariable Long id) throws IOException {
         Invoice invoice = invoiceRepository.findOne(id);
@@ -91,7 +87,6 @@ public class InvoiceRestController {
         return response;
     }
 
-    @CrossOrigin(origins = "http://localhost:5555")
     @RequestMapping(value = "auth/invoice/{id}", method = RequestMethod.DELETE)
     public void deleteInvoice(HttpServletRequest request, @PathVariable Long id) {
         invoiceRepository.delete(id);
@@ -101,5 +96,4 @@ public class InvoiceRestController {
         String token = request.getHeader(tokenHeader);
         return jwtTokenUtil.getUsernameFromToken(token);
     }
-
 }

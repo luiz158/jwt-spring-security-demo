@@ -22,14 +22,12 @@ public class CostMatchRestController {
     @Autowired
     private CostMatchRepository costMatchRepository;
 
-    @CrossOrigin(origins = "http://localhost:5555")
     @RequestMapping(value = "auth/match", method = RequestMethod.GET)
     public Collection<CostMatch> getCostMatches(HttpServletRequest request) {
         String username = getUser(request);
         return costMatchRepository.findByUser(username);
     }
 
-    @CrossOrigin(origins = "http://localhost:5555")
     @RequestMapping(value = "auth/match", method = { RequestMethod.PUT, RequestMethod.POST })
     public void saveCostMatch(HttpServletRequest request, @RequestBody CostMatch costMatch) {
         String username = getUser(request);
@@ -37,7 +35,6 @@ public class CostMatchRestController {
         costMatchRepository.save(costMatch);
     }
 
-    @CrossOrigin(origins = "http://localhost:5555")
     @RequestMapping(value = "auth/match/{id}", method = RequestMethod.DELETE)
     public void deleteCostMatch(HttpServletRequest request, @PathVariable Long id) {
         costMatchRepository.delete(id);
@@ -47,5 +44,4 @@ public class CostMatchRestController {
         String token = request.getHeader(tokenHeader);
         return jwtTokenUtil.getUsernameFromToken(token);
     }
-
 }

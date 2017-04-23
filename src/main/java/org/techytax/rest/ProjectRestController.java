@@ -27,20 +27,17 @@ public class ProjectRestController {
     @Autowired
     private ProjectRepository projectRepository;
 
-    @CrossOrigin(origins = "http://localhost:5555")
     @RequestMapping(value = "auth/project", method = RequestMethod.GET)
     public Collection<Project> getProjects(HttpServletRequest request) {
         String username = getUser(request);
         return projectRepository.findByUser(username);
     }
 
-    @CrossOrigin(origins = "http://localhost:5555")
     @RequestMapping(value = "auth/project/{id}", method = RequestMethod.GET)
     public Project getProject(HttpServletRequest request, @PathVariable Long id) {
         return projectRepository.findOne(id);
     }
 
-    @CrossOrigin(origins = "http://localhost:5555")
     @RequestMapping(value = "auth/project", method = { RequestMethod.PUT, RequestMethod.POST })
     public void saveProject(HttpServletRequest request, @RequestBody Project project) {
         String username = getUser(request);
@@ -48,7 +45,6 @@ public class ProjectRestController {
         projectRepository.save(project);
     }
 
-    @CrossOrigin(origins = "http://localhost:5555")
     @RequestMapping(value = "auth/project/{id}", method = RequestMethod.DELETE)
     public void deleteCustomer(HttpServletRequest request, @PathVariable Long id) {
         projectRepository.delete(id);
@@ -58,5 +54,4 @@ public class ProjectRestController {
         String token = request.getHeader(tokenHeader);
         return jwtTokenUtil.getUsernameFromToken(token);
     }
-
 }

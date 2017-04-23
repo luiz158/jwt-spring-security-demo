@@ -54,14 +54,12 @@ public class FiscalRestController {
         this.costRepository = costRepository;
     }
 
-    @CrossOrigin(origins = "http://localhost:5555")
     @RequestMapping(value = "auth/fiscal-overview", method = RequestMethod.GET)
     public FiscalOverview getFiscalOverview(HttpServletRequest request) throws Exception {
         String username = getUser(request);
         return fiscalOverviewHelper.createFiscalOverview(null, null, username);
     }
 
-    @CrossOrigin(origins = "http://localhost:5555")
     @RequestMapping(value = "auth/fiscal-overview", method = RequestMethod.POST)
     public void sendFiscalData(HttpServletRequest request, @RequestBody VatReport vatReport) {
         String username = getUser(request);
@@ -134,5 +132,4 @@ public class FiscalRestController {
         String token = request.getHeader(tokenHeader);
         return jwtTokenUtil.getUsernameFromToken(token);
     }
-
 }

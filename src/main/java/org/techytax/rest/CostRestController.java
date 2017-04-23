@@ -31,21 +31,17 @@ public class CostRestController {
         this.costRepository = costRepository;
     }
 
-    @CrossOrigin(origins = "http://localhost:5555")
     @RequestMapping(value = "auth/costs", method = RequestMethod.GET)
     public Collection<Cost> getCosts(HttpServletRequest request) {
         String username = getUser(request);
-        System.out.println("Hoi " + username);
         return costRepository.findByUser(username);
     }
 
-    @CrossOrigin(origins = "http://localhost:5555")
     @RequestMapping(value = "auth/costs/{id}", method = RequestMethod.GET)
     public Cost getCost(HttpServletRequest request, @PathVariable Long id) {
         return costRepository.findOne(id);
     }
 
-    @CrossOrigin(origins = "http://localhost:5555")
     @RequestMapping(value = "auth/cost", method = { RequestMethod.PUT, RequestMethod.POST })
     public void saveCost(HttpServletRequest request, @RequestBody Cost cost) {
         String username = getUser(request);
@@ -53,7 +49,6 @@ public class CostRestController {
         costRepository.save(cost);
     }
 
-    @CrossOrigin(origins = "http://localhost:5555")
     @RequestMapping(value = "auth/cost/{id}", method = RequestMethod.DELETE)
     public void deleteCost(HttpServletRequest request, @PathVariable Long id) {
         costRepository.delete(id);
@@ -63,5 +58,4 @@ public class CostRestController {
         String token = request.getHeader(tokenHeader);
         return jwtTokenUtil.getUsernameFromToken(token);
     }
-
 }

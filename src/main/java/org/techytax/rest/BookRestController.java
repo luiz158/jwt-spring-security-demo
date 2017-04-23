@@ -27,14 +27,12 @@ public class BookRestController {
     @Autowired
     private BookRepository bookRepository;
 
-    @CrossOrigin(origins = "http://localhost:5555")
     @RequestMapping(value = "auth/book", method = RequestMethod.GET)
     public Collection<BookValue> getBookValues(HttpServletRequest request) {
         String username = getUser(request);
         return bookRepository.findByUser(username);
     }
 
-    @CrossOrigin(origins = "http://localhost:5555")
     @RequestMapping(value = "auth/book", method = { RequestMethod.PUT, RequestMethod.POST })
     public void saveBookValue(HttpServletRequest request, @RequestBody BookValue bookValue) {
         String username = getUser(request);
@@ -42,7 +40,6 @@ public class BookRestController {
         bookRepository.save(bookValue);
     }
 
-    @CrossOrigin(origins = "http://localhost:5555")
     @RequestMapping(value = "auth/book/{id}", method = RequestMethod.DELETE)
     public void deleteBookValue(HttpServletRequest request, @PathVariable Long id) {
         bookRepository.delete(id);
@@ -52,5 +49,4 @@ public class BookRestController {
         String token = request.getHeader(tokenHeader);
         return jwtTokenUtil.getUsernameFromToken(token);
     }
-
 }

@@ -27,20 +27,17 @@ public class CustomerRestController {
     @Autowired
     private CustomerRepository customerRepository;
 
-    @CrossOrigin(origins = "http://localhost:5555")
     @RequestMapping(value = "auth/customer", method = RequestMethod.GET)
     public Collection<Customer> getCustomers(HttpServletRequest request) {
         String username = getUser(request);
         return customerRepository.findByUser(username);
     }
 
-    @CrossOrigin(origins = "http://localhost:5555")
     @RequestMapping(value = "auth/customer/{id}", method = RequestMethod.GET)
     public Customer getCustomer(HttpServletRequest request, @PathVariable Long id) {
         return customerRepository.findOne(id);
     }
 
-    @CrossOrigin(origins = "http://localhost:5555")
     @RequestMapping(value = "auth/customer", method = { RequestMethod.PUT, RequestMethod.POST })
     public void saveCustomer(HttpServletRequest request, @RequestBody Customer customer) {
         String username = getUser(request);
@@ -48,7 +45,6 @@ public class CustomerRestController {
         customerRepository.save(customer);
     }
 
-    @CrossOrigin(origins = "http://localhost:5555")
     @RequestMapping(value = "auth/customer/{id}", method = RequestMethod.DELETE)
     public void deleteCustomer(HttpServletRequest request, @PathVariable Long id) {
         customerRepository.delete(id);
@@ -58,5 +54,4 @@ public class CustomerRestController {
         String token = request.getHeader(tokenHeader);
         return jwtTokenUtil.getUsernameFromToken(token);
     }
-
 }
