@@ -80,11 +80,7 @@ public class InvoiceRestController {
         headers.setAccessControlAllowOrigin("http://localhost:5555");
         headers.setContentDispositionFormData(filename, filename);
         headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
-        ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(contents, headers, HttpStatus.OK);
-        OutputStream out = new FileOutputStream("out.pdf");
-        out.write(contents);
-        out.close();
-        return response;
+        return new ResponseEntity<>(contents, headers, HttpStatus.OK);
     }
 
     @RequestMapping(value = "auth/invoice/{id}", method = RequestMethod.DELETE)
