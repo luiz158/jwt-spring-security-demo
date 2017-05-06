@@ -15,5 +15,6 @@ public interface InvoiceRepository extends CrudRepository<Invoice, Long> {
       "where i.user = ?1 and i.sent between ?2 and ?3")
     Collection<Invoice> findInvoices(String username, LocalDate fromDate, LocalDate toDate);
 
+    @Query("delete from Invoice i where i.user = ?1")
     void deleteInvoicesByUser(String username);
 }
