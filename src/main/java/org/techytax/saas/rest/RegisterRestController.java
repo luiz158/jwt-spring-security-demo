@@ -1,9 +1,9 @@
 package org.techytax.saas.rest;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +12,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.techytax.model.security.Authority;
 import org.techytax.model.security.AuthorityName;
 import org.techytax.model.security.User;
+import org.techytax.repository.ActivumRepository;
+import org.techytax.repository.BookRepository;
+import org.techytax.repository.CostMatchRepository;
+import org.techytax.repository.CostRepository;
+import org.techytax.repository.CustomerRepository;
+import org.techytax.repository.InvoiceRepository;
+import org.techytax.repository.ProjectRepository;
 import org.techytax.saas.domain.Registration;
 import org.techytax.saas.repository.RegistrationRepository;
 import org.techytax.security.JwtTokenUtil;
@@ -23,6 +30,7 @@ import javax.transaction.Transactional;
 import java.util.Arrays;
 import java.util.Date;
 
+@Slf4j
 @RestController
 public class RegisterRestController {
 
@@ -36,12 +44,32 @@ public class RegisterRestController {
   private RegistrationRepository registrationRepository;
 
   @Autowired
+  private CostRepository costRepository;
+
+  @Autowired
+  private ActivumRepository activumRepository;
+
+  @Autowired
+  private BookRepository bookRepository;
+
+  @Autowired
+  private CostMatchRepository costMatchRepository;
+
+  @Autowired
+  private CustomerRepository customerRepository;
+
+  @Autowired
+  private InvoiceRepository invoiceRepository;
+
+  @Autowired
+  private ProjectRepository projectRepository;
+
+  @Autowired
   private UserRepository userRepository;
 
   @Autowired
   private AuthorityRepository authorityRepository;
 
-  @CrossOrigin(origins = "http://localhost:5555")
   @RequestMapping(value = "register", method = RequestMethod.POST)
   @Transactional
   public void addRegistration(HttpServletRequest request, @RequestBody Registration registration) {
@@ -61,33 +89,34 @@ public class RegisterRestController {
     user.setLastPasswordResetDate(new Date());
     userRepository.save(user);
     registrationRepository.save(registration);
+    log.info("addRegistration called by user: {}", getUser(request));
   }
 
-  @CrossOrigin(origins = "http://localhost:5555")
   @RequestMapping(value = "auth/register", method = RequestMethod.PUT)
   @Transactional
   public void updateRegistration(HttpServletRequest request, @RequestBody Registration registration) {
     registrationRepository.save(registration);
+    log.info("updateRegistration called by user: {}", getUser(request));
   }
 
-  @CrossOrigin(origins = "http://localhost:5555")
   @RequestMapping(value = "auth/register", method = RequestMethod.GET)
   public Registration getRegistration(HttpServletRequest request) {
     String username = getUser(request);
     return registrationRepository.findByUser(username).stream().findFirst().get();
   }
 
-//  @CrossOrigin(origins = "http://localhost:5555")
-//  @RequestMapping(value = "auth/register", method = RequestMethod.GET)
-//  @PreAuthorize("hasRole('ADMIN')")
-//  public Collection<Registration> getRegistrations() {
-//    return registrationRepository.findAll();
-//  }
-
-  @CrossOrigin(origins = "http://localhost:5555")
   @RequestMapping(value = "auth/register/{id}", method = RequestMethod.DELETE)
   public void deleteRegistration(HttpServletRequest request, @PathVariable Long id) {
     registrationRepository.delete(id);
+    String username = getUser(request);
+    activumRepository.deleteActivumsByUser(username);
+    bookRepository.deleteBookValues(username);
+    costMatchRepository.deleteCostMatchesByUser(username);
+    costRepository.deleteCostsByUser(username);
+    customerRepository.deleteCustomersByUser(username);
+    invoiceRepository.deleteInvoicesByUser(username);
+    projectRepository.deleteProjectsByUser(username);
+    log.info("deleteRegistration called by user: {}", getUser(request));
   }
 
   private String getUser(HttpServletRequest request) {

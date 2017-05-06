@@ -8,4 +8,6 @@ import java.util.Collection;
 public interface CostMatchRepository extends CrudRepository<CostMatch, Long> {
 
     Collection<CostMatch> findByUser(String username);
+
+    void deleteCostMatchesByUser(String username);
 }

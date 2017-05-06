@@ -15,4 +15,6 @@ public interface CostRepository extends CrudRepository<Cost, Long> {
     @Query("select c from Cost c " +
       "where c.user = ?1 and c.costType = ?2 and c.date between ?3 and ?4 and c.amount is not null and c.amount > 0")
     Collection<Cost> findCosts(String username, CostType costType, LocalDate fromDate, LocalDate toDate);
+
+    void deleteCostsByUser(String username);
 }

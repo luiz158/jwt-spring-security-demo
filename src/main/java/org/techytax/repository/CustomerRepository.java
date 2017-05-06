@@ -8,4 +8,6 @@ import java.util.Collection;
 public interface CustomerRepository extends CrudRepository<Customer, Long> {
 
     Collection<Customer> findByUser(String username);
+
+    void deleteCustomersByUser(String username);
 }
