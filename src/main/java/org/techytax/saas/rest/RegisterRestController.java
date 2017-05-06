@@ -105,9 +105,9 @@ public class RegisterRestController {
     return registrationRepository.findByUser(username).stream().findFirst().get();
   }
 
+  @Transactional
   @RequestMapping(value = "auth/register/{id}", method = RequestMethod.DELETE)
   public void deleteRegistration(HttpServletRequest request, @PathVariable Long id) {
-    registrationRepository.delete(id);
     String username = getUser(request);
     activumRepository.deleteActivumsByUser(username);
     bookRepository.deleteBookValues(username);
@@ -116,6 +116,8 @@ public class RegisterRestController {
     customerRepository.deleteCustomersByUser(username);
     invoiceRepository.deleteInvoicesByUser(username);
     projectRepository.deleteProjectsByUser(username);
+    userRepository.deleteUser(username);
+    registrationRepository.delete(id);
     log.info("deleteRegistration called by user: {}", getUser(request));
   }
 

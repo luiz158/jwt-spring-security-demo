@@ -8,7 +8,7 @@
     <file>${LOG_FILE}</file>
     <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
       <!-- monthly rollover -->
-      <fileNamePattern>digipoort-service.%i.log.gz</fileNamePattern>
+      <fileNamePattern>techytax.%i.log.gz</fileNamePattern>
       <minIndex>1</minIndex>
       <maxIndex>3</maxIndex>
     </rollingPolicy>
