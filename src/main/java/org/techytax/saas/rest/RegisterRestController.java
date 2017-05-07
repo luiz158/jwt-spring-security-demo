@@ -4,7 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -106,8 +105,8 @@ public class RegisterRestController {
   }
 
   @Transactional
-  @RequestMapping(value = "auth/register/{id}", method = RequestMethod.DELETE)
-  public void deleteRegistration(HttpServletRequest request, @PathVariable Long id) {
+  @RequestMapping(value = "auth/register", method = RequestMethod.DELETE)
+  public void deleteRegistration(HttpServletRequest request) {
     String username = getUser(request);
     activumRepository.deleteActivumsByUser(username);
     bookRepository.deleteBookValues(username);
@@ -117,7 +116,7 @@ public class RegisterRestController {
     invoiceRepository.deleteInvoicesByUser(username);
     projectRepository.deleteProjectsByUser(username);
     userRepository.deleteUser(username);
-    registrationRepository.delete(id);
+    registrationRepository.deleteRegistrationByUser(username);
     log.info("deleteRegistration called by user: {}", getUser(request));
   }
 
