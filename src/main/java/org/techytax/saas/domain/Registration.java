@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 @Entity
@@ -63,6 +64,8 @@ public class Registration {
     String zipCode;
     String city;
     String accountNumber;
+
+    @Size(min = 8, max = 8)
     Long chamberOfCommerceNumber;
 
     public String getFullAddress() {
