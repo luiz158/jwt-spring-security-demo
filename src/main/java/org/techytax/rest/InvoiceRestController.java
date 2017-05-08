@@ -77,7 +77,7 @@ public class InvoiceRestController {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.parseMediaType("application/pdf"));
         String filename = "output.pdf";
-        headers.setAccessControlAllowOrigin("http://localhost:5555");
+        headers.setAccessControlAllowOrigin("*");
         headers.setContentDispositionFormData(filename, filename);
         headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
         return new ResponseEntity<>(contents, headers, HttpStatus.OK);
