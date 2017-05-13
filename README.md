@@ -1,5 +1,3 @@
-# TechyTax backend
-
 ##Introduction
 TechyTax backend is based on [jwt-spring-security-demo](https://github.com/szerhusenBC/jwt-spring-security-demo).
 
