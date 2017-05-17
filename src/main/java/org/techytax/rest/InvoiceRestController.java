@@ -6,6 +6,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -80,13 +81,13 @@ public class InvoiceRestController {
         return new ResponseEntity<>(contents, headers, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "auth/invoice/{id}/send", method = RequestMethod.GET)
-    public ResponseEntity.BodyBuilder sendInvoicePdf(HttpServletRequest request, @PathVariable Long id) throws Exception {
+    @RequestMapping(value = "auth/invoice/{id}/send", method = RequestMethod.POST)
+    public ResponseEntity.BodyBuilder sendInvoicePdf(HttpServletRequest request, @PathVariable Long id, @RequestBody String htmlText) throws Exception {
         Invoice invoice = invoiceRepository.findOne(id);
         String username = getUser(request);
         Registration registration = registrationRepository.findByUser(username).stream().findFirst().get();
         byte[] contents = invoiceCreator.createPdfInvoice(invoice, registration);
-        MailHelper.sendInvoice(invoice, contents, registration);
+        MailHelper.sendInvoice(htmlText, invoice, contents, registration);
         invoice.setUser(username);
         invoice.setSent(LocalDate.now());
         invoiceRepository.save(invoice);

@@ -76,9 +76,9 @@ public class MailHelper {
 		tr.close();
 	}
 
-	public static void sendInvoice(Invoice invoice, byte[] invoiceBuf, Registration registration) throws Exception {
+	public static void sendInvoice(String htmlText, Invoice invoice, byte[] invoiceBuf, Registration registration) throws Exception {
 		loadProperties();
-		String to = "hans@beemsoft.nl"; // invoice.getProject().getCustomer().getEmailInvoice();
+		String to = invoice.getProject().getCustomer().getEmailInvoice();
 		String bcc = registration.getPersonalData().getEmail();
 		String subj = "Factuur " + invoice.getInvoiceNumber();
 		Session session = Session.getDefaultInstance(props);
@@ -103,7 +103,6 @@ public class MailHelper {
 		MimeMultipart multipart = new MimeMultipart("related");
 
 		BodyPart messageBodyPart = new MimeBodyPart();
-		String htmlText = "Zie bijlage.";
 		messageBodyPart.setContent(htmlText, "text/html");
 		multipart.addBodyPart(messageBodyPart);
 
