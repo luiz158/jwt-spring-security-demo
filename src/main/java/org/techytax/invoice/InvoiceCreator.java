@@ -46,7 +46,6 @@ public class InvoiceCreator {
   }
 
   public byte[] createPdfInvoice(Invoice invoice, Registration registration) {
-    invoice.setSent(LocalDate.now());
     String month = LocalDate.now().minusMonths(1).getMonth().getDisplayName(TextStyle.FULL, Locale.forLanguageTag("NL"));
     Document document = new Document(PageSize.A4);
     ByteArrayOutputStream byteOutputStream = new ByteArrayOutputStream();

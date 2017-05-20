@@ -121,4 +121,42 @@ public class MailHelper {
 		tr.close();
 	}
 
+	public static void sendReminder(String htmlText, Invoice invoice, Registration registration) throws Exception {
+		loadProperties();
+		String to = invoice.getProject().getCustomer().getEmailInvoice();
+		String bcc = registration.getPersonalData().getEmail();
+		String subj = "Herinnering: Factuur " + invoice.getInvoiceNumber();
+		Session session = Session.getDefaultInstance(props);
+		session.setDebug(true);
+		Message msg = new MimeMessage(session);
+		InternetAddress[] toAddrs = null, ccAddrs = null, bccAddrs = null;
+
+		if (to != null) {
+			toAddrs = InternetAddress.parse(to, false);
+			msg.setRecipients(Message.RecipientType.TO, toAddrs);
+		} else
+			throw new MessagingException("No \"To\" address specified");
+
+		bccAddrs = InternetAddress.parse(bcc, false);
+		msg.setRecipients(Message.RecipientType.BCC, bccAddrs);
+
+		if (subj != null)
+			msg.setSubject(subj);
+
+		msg.setFrom(new InternetAddress(registration.getCompanyData().getCompanyName() + " <" + bcc + ">"));
+
+		MimeMultipart multipart = new MimeMultipart("related");
+
+		BodyPart messageBodyPart = new MimeBodyPart();
+		messageBodyPart.setContent(htmlText, "text/html");
+		multipart.addBodyPart(messageBodyPart);
+
+		msg.setContent(multipart);
+		Transport tr = session.getTransport("smtp");
+		tr.connect(props.getProperty("mail.smtp.host"), 465, props.getProperty("mail.smtp.user"), props.getProperty("mail.smtp.password"));
+		msg.saveChanges();
+		tr.sendMessage(msg, msg.getAllRecipients());
+		tr.close();
+	}
+
 }

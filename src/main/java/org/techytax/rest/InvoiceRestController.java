@@ -86,11 +86,20 @@ public class InvoiceRestController {
         Invoice invoice = invoiceRepository.findOne(id);
         String username = getUser(request);
         Registration registration = registrationRepository.findByUser(username).stream().findFirst().get();
-        byte[] contents = invoiceCreator.createPdfInvoice(invoice, registration);
-        MailHelper.sendInvoice(htmlText, invoice, contents, registration);
         invoice.setUser(username);
         invoice.setSent(LocalDate.now());
+        byte[] contents = invoiceCreator.createPdfInvoice(invoice, registration);
+        MailHelper.sendInvoice(htmlText, invoice, contents, registration);
         invoiceRepository.save(invoice);
+        return ResponseEntity.ok();
+    }
+
+    @RequestMapping(value = "auth/invoice/{id}/remind", method = RequestMethod.POST)
+    public ResponseEntity.BodyBuilder sendReminder(HttpServletRequest request, @PathVariable Long id, @RequestBody String htmlText) throws Exception {
+        Invoice invoice = invoiceRepository.findOne(id);
+        String username = getUser(request);
+        Registration registration = registrationRepository.findByUser(username).stream().findFirst().get();
+        MailHelper.sendReminder(htmlText, invoice, registration);
         return ResponseEntity.ok();
     }
 
