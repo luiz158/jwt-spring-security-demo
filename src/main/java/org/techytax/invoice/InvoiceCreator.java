@@ -46,7 +46,6 @@ public class InvoiceCreator {
   }
 
   public byte[] createPdfInvoice(Invoice invoice, Registration registration) {
-    String month = LocalDate.now().minusMonths(1).getMonth().getDisplayName(TextStyle.FULL, Locale.forLanguageTag("NL"));
     Document document = new Document(PageSize.A4);
     ByteArrayOutputStream byteOutputStream = new ByteArrayOutputStream();
     try {
@@ -81,7 +80,7 @@ public class InvoiceCreator {
       cell = new PdfPCell(new Paragraph("Maand"));
       cell.setBorder(PdfPCell.NO_BORDER);
       subTable.addCell(cell);
-      cell = new PdfPCell(new Paragraph(month));
+      cell = new PdfPCell(new Paragraph(invoice.getMonth()));
       cell.setBorder(PdfPCell.NO_BORDER);
       subTable.addCell(cell);
       cell = new PdfPCell(new Paragraph("Betalingstermijn"));
@@ -214,7 +213,7 @@ public class InvoiceCreator {
       cell = new PdfPCell(headerChunk);
       cell.setBackgroundColor(color);
       subTable.addCell(cell);
-      cell = new PdfPCell(new Paragraph(invoice.getProject().getActivityDescription() + ", " + month + " " + invoice.getSent().getYear()));
+      cell = new PdfPCell(new Paragraph(invoice.getProject().getActivityDescription() + ", " + invoice.getMonth() + " " + invoice.getSent().getYear()));
       cell.setGrayFill(0.9f);
       subTable.addCell(cell);
       cell = new PdfPCell(new Paragraph(Float.toString(invoice.getUnitsOfWork())));
