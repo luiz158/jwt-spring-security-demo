@@ -28,7 +28,6 @@ public class Invoice {
     @NotNull
     private String invoiceNumber;
 
-    @NotNull
     private String month;
 
     private float unitsOfWork;
