@@ -55,7 +55,7 @@ public class InvoiceRestController {
     @RequestMapping(value = "auth/invoice/latest-period", method = RequestMethod.GET)
     public Collection<Invoice> getInvoicesForLatestPeriod(HttpServletRequest request) {
         String username = getUser(request);
-        return invoiceRepository.findInvoices(username, LocalDate.now().minusMonths(4).withDayOfMonth(1), LocalDate.now().withDayOfMonth(1).minusDays(1));
+        return invoiceRepository.findInvoices(username, LocalDate.now().minusMonths(3).withDayOfMonth(1), LocalDate.now().withDayOfMonth(1).minusDays(1));
     }
 
     @RequestMapping(value = "auth/invoice", method = { RequestMethod.PUT, RequestMethod.POST })
