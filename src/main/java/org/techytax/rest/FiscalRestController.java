@@ -126,6 +126,7 @@ public class FiscalRestController {
                 BookValue bookValue = new BookValue();
                 bookValue.setUser(username);
                 bookValue.setBalanceType(BalanceType.VAT_TO_BE_PAID);
+                bookValue.setSaldo(vatReport.getVatSaldo().toBigInteger());
                 bookValue.setBookYear(LocalDate.now().getYear() - 1);
                 bookRepository.save(bookValue);
             }
