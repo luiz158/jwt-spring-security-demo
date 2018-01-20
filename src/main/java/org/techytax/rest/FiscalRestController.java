@@ -37,10 +37,16 @@ public class FiscalRestController {
     private BookRepository bookRepository;
 
     @Autowired
-    public FiscalRestController(JwtTokenUtil jwtTokenUtil, FiscalOverviewHelper fiscalOverviewHelper, CostRepository costRepository) {
+    public FiscalRestController(
+      JwtTokenUtil jwtTokenUtil,
+      FiscalOverviewHelper fiscalOverviewHelper,
+      CostRepository costRepository,
+      BookRepository bookRepository
+    ) {
         this.jwtTokenUtil = jwtTokenUtil;
         this.fiscalOverviewHelper = fiscalOverviewHelper;
         this.costRepository = costRepository;
+        this.bookRepository = bookRepository;
     }
 
     @RequestMapping(value = "auth/fiscal-overview", method = RequestMethod.GET)
@@ -52,7 +58,7 @@ public class FiscalRestController {
     @RequestMapping(value = "auth/fiscal-overview", method = RequestMethod.POST)
     public void sendFiscalData(HttpServletRequest request, @RequestBody VatReport vatReport) {
         String username = getUser(request);
-        if (vatReport.getTotalCarCosts().compareTo(ZERO) == 1) {
+        if (vatReport.getTotalCarCosts().compareTo(ZERO) > 0) {
             Cost cost = new Cost();
             cost.setUser(username);
             cost.setDate(vatReport.getLatestTransactionDate());
@@ -61,7 +67,7 @@ public class FiscalRestController {
             cost.setDescription("Total car costs");
             costRepository.save(cost);
         }
-        if (vatReport.getTotalTransportCosts().compareTo(ZERO) == 1) {
+        if (vatReport.getTotalTransportCosts().compareTo(ZERO) > 0) {
             Cost cost = new Cost();
             cost.setUser(username);
             cost.setDate(vatReport.getLatestTransactionDate());
@@ -70,7 +76,7 @@ public class FiscalRestController {
             cost.setDescription("Total transport costs");
             costRepository.save(cost);
         }
-        if (vatReport.getTotalOfficeCosts().compareTo(ZERO) == 1) {
+        if (vatReport.getTotalOfficeCosts().compareTo(ZERO) > 0) {
             Cost cost = new Cost();
             cost.setUser(username);
             cost.setDate(vatReport.getLatestTransactionDate());
@@ -79,7 +85,7 @@ public class FiscalRestController {
             cost.setDescription("Total office costs");
             costRepository.save(cost);
         }
-        if (vatReport.getTotalOtherCosts().compareTo(ZERO) == 1) {
+        if (vatReport.getTotalOtherCosts().compareTo(ZERO) > 0) {
             Cost cost = new Cost();
             cost.setUser(username);
             cost.setDate(vatReport.getLatestTransactionDate());
@@ -88,7 +94,7 @@ public class FiscalRestController {
             cost.setDescription("Total other costs");
             costRepository.save(cost);
         }
-        if (vatReport.getTotalFoodCosts().compareTo(ZERO) == 1) {
+        if (vatReport.getTotalFoodCosts().compareTo(ZERO) > 0) {
             Cost cost = new Cost();
             cost.setUser(username);
             cost.setDate(vatReport.getLatestTransactionDate());
@@ -97,7 +103,7 @@ public class FiscalRestController {
             cost.setDescription("Total food costs");
             costRepository.save(cost);
         }
-        if (vatReport.getTotalVatOut().compareTo(ZERO) == 1) {
+        if (vatReport.getTotalVatOut().compareTo(ZERO) > 0) {
             Cost cost = new Cost();
             cost.setUser(username);
             cost.setDate(vatReport.getLatestTransactionDate());
@@ -106,7 +112,7 @@ public class FiscalRestController {
             cost.setDescription("Total VAT out");
             costRepository.save(cost);
         }
-        if (vatReport.getTotalVatIn().compareTo(ZERO) == 1) {
+        if (vatReport.getTotalVatIn().compareTo(ZERO) > 0) {
             Cost cost = new Cost();
             cost.setUser(username);
             cost.setDate(vatReport.getLatestTransactionDate());
@@ -116,7 +122,7 @@ public class FiscalRestController {
             costRepository.save(cost);
         }
         if (vatReport.getLatestTransactionDate().getYear() < LocalDate.now().getYear()) {
-            if (vatReport.getVatSaldo().compareTo(ZERO) == 1) {
+            if (vatReport.getVatSaldo().compareTo(ZERO) > 0) {
                 BookValue bookValue = new BookValue();
                 bookValue.setUser(username);
                 bookValue.setBalanceType(BalanceType.VAT_TO_BE_PAID);
