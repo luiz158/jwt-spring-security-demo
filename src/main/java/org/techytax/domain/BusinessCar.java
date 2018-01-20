@@ -30,7 +30,7 @@ public class BusinessCar extends Activum {
 		} else {
 			correctionPercentage = new BigDecimal(.015);
 		}
-		return getPurchasePrice().multiply(correctionPercentage).setScale(0, BigDecimal.ROUND_DOWN).toBigInteger();
+		return getPurchasePrice().multiply(correctionPercentage).setScale(0, BigDecimal.ROUND_UP).toBigInteger();
 	}
 	
 }

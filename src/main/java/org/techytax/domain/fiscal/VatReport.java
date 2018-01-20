@@ -20,5 +20,6 @@ public class VatReport {
     private BigDecimal totalOtherCosts;
     private BigDecimal totalVatIn;
     private BigDecimal totalVatOut;
-    private BigDecimal paidInvoices;
+    private BigDecimal sentInvoices;
+    private BigDecimal vatSaldo;
 }
