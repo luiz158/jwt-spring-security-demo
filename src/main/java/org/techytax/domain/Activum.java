@@ -5,29 +5,26 @@ import lombok.Getter;
 import lombok.Setter;
 import org.techytax.helper.DepreciationHelper;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDate;
 
 @Entity
-@NamedQueries({
-        @NamedQuery(name = Activum.NEW_ACTIVA, query = "SELECT act FROM Activum act WHERE act.balanceType = :balanceType AND ((act.startDate >= :fiscalStartDate AND act.startDate <= :fiscalEndDate) OR (act.startDate <= :fiscalStartDate AND act.startDate <= :fiscalEndDate)) AND act.endDate = null AND act.user = :user"),
-        @NamedQuery(name = Activum.ALL_ACTIVA, query = "SELECT act FROM Activum act WHERE act.user = :user ORDER BY act.startDate ASC"),
-        @NamedQuery(name = Activum.ACTIVE_ACTIVA, query = "SELECT act FROM Activum act WHERE act.user = :user AND act.endDate = null ORDER BY act.startDate ASC"),
-        @NamedQuery(name = Activum.ACTIVE_ACTIVA_FOR_TYPE, query = "SELECT act FROM Activum act WHERE act.balanceType = :balanceType AND act.user = :user AND act.endDate = null AND (act.startDate = null OR act.startDate <= :startDate) ORDER BY act.startDate ASC")})
 @Table(name = "activa")
 @Inheritance(strategy = InheritanceType.JOINED)
 @Getter
 @Setter
 public class Activum {
-
-    static final String NEW_ACTIVA = "Activum.NEW_ACTIVA";
-    static final String ALL_ACTIVA = "Activum.ALL_ACTIVA";
-    static final String ACTIVE_ACTIVA = "Activum.ACTIVE_ACTIVA";
-    static final String ACTIVE_ACTIVA_FOR_TYPE = "Activum.ACTIVE_ACTIVA_FOR_TYPE";
-
     @Id
     @GeneratedValue
     protected Long id = 0L;

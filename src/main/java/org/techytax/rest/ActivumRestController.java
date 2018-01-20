@@ -2,7 +2,6 @@ package org.techytax.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +14,7 @@ import org.techytax.repository.ActivumRepository;
 import org.techytax.security.JwtTokenUtil;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDate;
 import java.util.Collection;
 
 @RestController
@@ -47,6 +47,12 @@ public class ActivumRestController {
         String username = getUser(request);
         activum.setUser(username);
         activumRepository.save(activum);
+    }
+
+    @RequestMapping(value = "auth/activum/car", method = { RequestMethod.GET })
+    public BusinessCar getActivumCar(HttpServletRequest request) {
+        String username = getUser(request);
+        return activumRepository.findBusinessCar(username, LocalDate.now().minusYears(1).withDayOfYear(1), LocalDate.now().withDayOfYear(1).minusDays(1));
     }
 
     @RequestMapping(value = "auth/activum/office", method = { RequestMethod.PUT, RequestMethod.POST })
