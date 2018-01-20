@@ -121,12 +121,24 @@ public class FiscalRestController {
             cost.setDescription("Total VAT in");
             costRepository.save(cost);
         }
+        addBookValues(vatReport, username);
+    }
+
+    private void addBookValues(VatReport vatReport, String username) {
         if (vatReport.getLatestTransactionDate().getYear() < LocalDate.now().getYear()) {
             if (vatReport.getVatSaldo().compareTo(ZERO) > 0) {
                 BookValue bookValue = new BookValue();
                 bookValue.setUser(username);
                 bookValue.setBalanceType(BalanceType.VAT_TO_BE_PAID);
                 bookValue.setSaldo(vatReport.getVatSaldo().toBigInteger());
+                bookValue.setBookYear(LocalDate.now().getYear() - 1);
+                bookRepository.save(bookValue);
+            }
+            if (vatReport.getSentInvoices().compareTo(ZERO) > 0) {
+                BookValue bookValue = new BookValue();
+                bookValue.setUser(username);
+                bookValue.setBalanceType(BalanceType.INVOICES_TO_BE_PAID);
+                bookValue.setSaldo(vatReport.getSentInvoices().toBigInteger());
                 bookValue.setBookYear(LocalDate.now().getYear() - 1);
                 bookRepository.save(bookValue);
             }
