@@ -42,6 +42,8 @@ class CompanyCosts {
   private Collection<Cost> foodCostList;
   private Collection<Cost> officeCostList;
 
+  private BigInteger vatCorrectionForPrivateUsage;
+
   void calculate(String username) {
     transportCostList = costRepository.findCosts(username, CostConstants.TRAVEL_WITH_PUBLIC_TRANSPORT, LocalDate.now().minusYears(1).withDayOfYear(1), LocalDate.now().withDayOfYear(1).minusDays(1));
     BigDecimal totalTransportCosts = BigDecimal.ZERO;
@@ -54,9 +56,11 @@ class CompanyCosts {
       totalBusinessCarCosts = totalBusinessCarCosts.add(cost.getAmount());
     }
     Collection<Activum> carList = activumRepository.findActivums(username, BalanceType.CAR, LocalDate.now().minusYears(1).withDayOfYear(1), LocalDate.now().withDayOfYear(1).minusDays(1));
+    vatCorrectionForPrivateUsage = BigInteger.ZERO;
     for (Activum activum: carList) {
-      totalBusinessCarCosts = totalBusinessCarCosts.add(BigDecimal.valueOf((((BusinessCar)activum).getVatCorrectionForPrivateUsage()).intValue()));
+      vatCorrectionForPrivateUsage = vatCorrectionForPrivateUsage.add(((BusinessCar)activum).getVatCorrectionForPrivateUsage());
     }
+    totalBusinessCarCosts = totalBusinessCarCosts.add(new BigDecimal(vatCorrectionForPrivateUsage));
 
     carAndTransportCosts = AmountHelper.roundToInteger(totalBusinessCarCosts.add(totalTransportCosts));
     officeCostList = costRepository.findCosts(username, CostConstants.SETTLEMENT, LocalDate.now().minusYears(1).withDayOfYear(1), LocalDate.now().withDayOfYear(1).minusDays(1));

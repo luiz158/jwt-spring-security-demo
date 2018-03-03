@@ -126,6 +126,7 @@ public class FiscalRestController {
 
     private void addBookValues(VatReport vatReport, String username) {
         if (vatReport.getLatestTransactionDate().getYear() < LocalDate.now().getYear()) {
+            // TODO: fix NPE vat saldo null for KOR
             if (vatReport.getVatSaldo().compareTo(ZERO) > 0) {
                 BookValue bookValue = new BookValue();
                 bookValue.setUser(username);
