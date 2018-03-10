@@ -70,7 +70,7 @@ public interface CostConstants {
 	CostType INCOME_CURRENT_ACCOUNT_IGNORE = new CostType(46);
 	CostType EXPENSE_INSIDE_EU = new CostType(47);
 
-	BigInteger MAXIMALE_FOR = BigInteger.valueOf(8774);
+	BigInteger MAXIMALE_FOR = BigInteger.valueOf(8946);
 	BigDecimal FOR_PERCENTAGE = BigDecimal.valueOf(0.098f);
 
 	float FOOD_TAXFREE_PERCENTAGE = 0.735f;
