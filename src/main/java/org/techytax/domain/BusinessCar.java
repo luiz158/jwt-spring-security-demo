@@ -23,14 +23,19 @@ public class BusinessCar extends Activum {
 	 */
 	public BigInteger getVatCorrectionForPrivateUsage () {
     LocalDate currentDate = LocalDate.now();
-    LocalDate firstCarUsageDate = getStartDate();
-    BigDecimal correctionPercentage;
-    if (currentDate.getYear() - firstCarUsageDate.getYear() < 6) {
-    	correctionPercentage = new BigDecimal(.027);
-		} else {
-			correctionPercentage = new BigDecimal(.015);
-		}
-		return getPurchasePrice().multiply(correctionPercentage).setScale(0, BigDecimal.ROUND_UP).toBigInteger();
+    if (currentDate.isAfter(currentDate.withMonth(1).withDayOfMonth(1))
+      && currentDate.isBefore(currentDate.withMonth(4).withDayOfMonth(1))) {
+      LocalDate firstCarUsageDate = getStartDate();
+      BigDecimal correctionPercentage;
+      if (currentDate.getYear() - firstCarUsageDate.getYear() < 6) {
+        correctionPercentage = new BigDecimal(.027);
+      } else {
+        correctionPercentage = new BigDecimal(.015);
+      }
+      return getPurchasePrice().multiply(correctionPercentage).setScale(0, BigDecimal.ROUND_UP).toBigInteger();
+    } else {
+      return BigInteger.ZERO;
+    }
 	}
 	
 }
