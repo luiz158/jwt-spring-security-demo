@@ -6,25 +6,37 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 import org.techytax.domain.BalanceType;
 import org.techytax.domain.BookValue;
 import org.techytax.domain.Cost;
 import org.techytax.domain.CostConstants;
+import org.techytax.domain.FiscalPeriod;
+import org.techytax.domain.VatDeclarationData;
+import org.techytax.domain.VatPeriodType;
+import org.techytax.domain.VatType;
 import org.techytax.domain.fiscal.FiscalOverview;
 import org.techytax.domain.fiscal.VatReport;
 import org.techytax.helper.FiscalOverviewHelper;
 import org.techytax.repository.BookRepository;
 import org.techytax.repository.CostRepository;
+import org.techytax.saas.domain.Registration;
+import org.techytax.saas.repository.RegistrationRepository;
 import org.techytax.security.JwtTokenUtil;
+import org.techytax.util.DateHelper;
 
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.time.LocalDate;
 
 import static java.math.BigDecimal.ZERO;
+import static org.techytax.helper.AmountHelper.roundDownToInteger;
 
 @RestController
 public class FiscalRestController {
 
+    public static final String ZERO_PREFIX_PHONE_NUMBER = "0";
     @Value("${jwt.header}")
     private String tokenHeader;
 
@@ -36,17 +48,25 @@ public class FiscalRestController {
 
     private BookRepository bookRepository;
 
+    private RegistrationRepository registrationRepository;
+
+    private RestTemplate restTemplate;
+
     @Autowired
     public FiscalRestController(
       JwtTokenUtil jwtTokenUtil,
       FiscalOverviewHelper fiscalOverviewHelper,
       CostRepository costRepository,
-      BookRepository bookRepository
+      BookRepository bookRepository,
+      RegistrationRepository registrationRepository,
+      RestTemplate restTemplate
     ) {
         this.jwtTokenUtil = jwtTokenUtil;
         this.fiscalOverviewHelper = fiscalOverviewHelper;
         this.costRepository = costRepository;
         this.bookRepository = bookRepository;
+        this.registrationRepository = registrationRepository;
+        this.restTemplate = restTemplate;
     }
 
     @RequestMapping(value = "auth/fiscal-overview", method = RequestMethod.GET)
@@ -56,7 +76,7 @@ public class FiscalRestController {
     }
 
     @RequestMapping(value = "auth/fiscal-overview", method = RequestMethod.POST)
-    public void sendFiscalData(HttpServletRequest request, @RequestBody VatReport vatReport) {
+    public void sendFiscalData(HttpServletRequest request, @RequestBody VatReport vatReport) throws Exception {
         String username = getUser(request);
         if (vatReport.getTotalCarCosts().compareTo(ZERO) > 0) {
             Cost cost = new Cost();
@@ -122,6 +142,34 @@ public class FiscalRestController {
             costRepository.save(cost);
         }
         addBookValues(vatReport, username);
+        VatDeclarationData vatDeclarationData = createVatDeclarationData(username, vatReport);
+        String url = "http://localhost:8081/digipoort/vat";
+        restTemplate.postForEntity(url, vatDeclarationData, VatDeclarationData.class);
+    }
+
+    private VatDeclarationData createVatDeclarationData(String username, VatReport vatReport) throws Exception {
+        Registration registration = registrationRepository.findByUser(username).stream().findFirst().get();
+        VatDeclarationData data = new VatDeclarationData();
+        FiscalPeriod period = DateHelper.getLatestVatPeriod(VatPeriodType.PER_QUARTER);
+        data.setStartDate(period.getBeginDate());
+        data.setEndDate(period.getEndDate());
+        data.setFiscalNumber(registration.getFiscalData().getVatNumber());
+        data.setInitials(registration.getPersonalData().getInitials());
+        data.setSurname(registration.getPersonalData().getSurname());
+        data.setPhoneNumber(ZERO_PREFIX_PHONE_NUMBER +registration.getPersonalData().getPhoneNumber());
+        data.setValueAddedTaxOnInput(roundDownToInteger(vatReport.getTotalVatOut()));
+        data.setValueAddedTaxPrivateUse(vatReport.getVatCorrectionForPrivateUsage());
+        data.setTaxedTurnoverSuppliesServicesGeneralTariff(roundDownToInteger(vatReport.getSentInvoices().divide(BigDecimal.valueOf(1 + VatType.HIGH.getValue()), BigDecimal.ROUND_HALF_UP)));
+        data.setValueAddedTaxSuppliesServicesGeneralTariff(roundDownToInteger(new BigDecimal(data.getTaxedTurnoverSuppliesServicesGeneralTariff()).multiply(BigDecimal.valueOf(VatType.HIGH.getValue()))));
+        BigInteger owed = data.getValueAddedTaxSuppliesServicesGeneralTariff().subtract(data.getValueAddedTaxOnInput());
+        if (data.getValueAddedTaxPrivateUse() != null) {
+            owed = owed.add(data.getValueAddedTaxPrivateUse());
+        } else {
+            data.setValueAddedTaxPrivateUse(BigInteger.ZERO);
+        }
+        data.setValueAddedTaxOwed(owed);
+        data.setValueAddedTaxOwedToBePaidBack(owed);
+        return data;
     }
 
     private void addBookValues(VatReport vatReport, String username) {

@@ -33,6 +33,7 @@ public class Registration {
     String prefix;
     String surname;
     String email;
+    String phoneNumber;
 
     public String getFullName() {
       StringBuffer sb = new StringBuffer();

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.time.LocalDate;
 
 @Data
@@ -22,4 +23,5 @@ public class VatReport {
     private BigDecimal totalVatOut;
     private BigDecimal sentInvoices;
     private BigDecimal vatSaldo;
+    private BigInteger vatCorrectionForPrivateUsage;
 }
