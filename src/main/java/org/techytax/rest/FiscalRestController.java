@@ -161,14 +161,15 @@ public class FiscalRestController {
         data.setValueAddedTaxPrivateUse(vatReport.getVatCorrectionForPrivateUsage());
         data.setTaxedTurnoverSuppliesServicesGeneralTariff(roundDownToInteger(vatReport.getSentInvoices().divide(BigDecimal.valueOf(1 + VatType.HIGH.getValue()), BigDecimal.ROUND_HALF_UP)));
         data.setValueAddedTaxSuppliesServicesGeneralTariff(roundDownToInteger(new BigDecimal(data.getTaxedTurnoverSuppliesServicesGeneralTariff()).multiply(BigDecimal.valueOf(VatType.HIGH.getValue()))));
-        BigInteger owed = data.getValueAddedTaxSuppliesServicesGeneralTariff().subtract(data.getValueAddedTaxOnInput());
+        BigInteger owed = data.getValueAddedTaxSuppliesServicesGeneralTariff();
         if (data.getValueAddedTaxPrivateUse() != null) {
             owed = owed.add(data.getValueAddedTaxPrivateUse());
         } else {
             data.setValueAddedTaxPrivateUse(BigInteger.ZERO);
         }
         data.setValueAddedTaxOwed(owed);
-        data.setValueAddedTaxOwedToBePaidBack(owed);
+        BigInteger owedToBePaidBack = owed.subtract(data.getValueAddedTaxOnInput());
+        data.setValueAddedTaxOwedToBePaidBack(owedToBePaidBack);
         return data;
     }
 
