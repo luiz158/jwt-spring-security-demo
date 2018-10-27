@@ -159,7 +159,7 @@ public class FiscalRestController {
         data.setPhoneNumber(ZERO_PREFIX_PHONE_NUMBER +registration.getPersonalData().getPhoneNumber());
         data.setValueAddedTaxOnInput(roundDownToInteger(vatReport.getTotalVatOut()));
         data.setValueAddedTaxPrivateUse(vatReport.getVatCorrectionForPrivateUsage());
-        data.setTaxedTurnoverSuppliesServicesGeneralTariff(roundDownToInteger(vatReport.getSentInvoices().divide(BigDecimal.valueOf(1 + VatType.HIGH.getValue()), BigDecimal.ROUND_HALF_UP)));
+        data.setTaxedTurnoverSuppliesServicesGeneralTariff(roundDownToInteger(vatReport.getSentInvoices()));
         data.setValueAddedTaxSuppliesServicesGeneralTariff(roundDownToInteger(new BigDecimal(data.getTaxedTurnoverSuppliesServicesGeneralTariff()).multiply(BigDecimal.valueOf(VatType.HIGH.getValue()))));
         BigInteger owed = data.getValueAddedTaxSuppliesServicesGeneralTariff();
         if (data.getValueAddedTaxPrivateUse() != null) {
