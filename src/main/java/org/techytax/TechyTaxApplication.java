@@ -11,17 +11,17 @@ import java.sql.SQLException;
 
 @SpringBootApplication
 @Log
-public class JwtDemoApplication extends SpringBootServletInitializer {
+public class TechyTaxApplication extends SpringBootServletInitializer {
 
     public static void main(String[] args) throws SQLException {
 //        startH2Server();
-        SpringApplication.run(JwtDemoApplication.class, args);
+        SpringApplication.run(TechyTaxApplication.class, args);
 }
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
         startH2Server();
-        return application.sources(JwtDemoApplication.class);
+        return application.sources(TechyTaxApplication.class);
     }
 
     private static void startH2Server() {
