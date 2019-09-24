@@ -12,27 +12,27 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.filter.CorsFilter;
+import org.zerhusen.jwt.library.security.JWTConfigurer;
 import org.zerhusen.sample.app.security.JwtAccessDeniedHandler;
 import org.zerhusen.sample.app.security.JwtAuthenticationEntryPoint;
-import org.zerhusen.sample.app.security.jwt.JWTConfigurer;
 import org.zerhusen.jwt.library.TokenProvider;
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-   private final TokenProvider tokenProvider;
+   private final JWTConfigurer jwtConfigurer;
    private final CorsFilter corsFilter;
    private final JwtAuthenticationEntryPoint authenticationErrorHandler;
    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
    public WebSecurityConfig(
-      TokenProvider tokenProvider,
+      JWTConfigurer jwtConfigurer,
       CorsFilter corsFilter,
       JwtAuthenticationEntryPoint authenticationErrorHandler,
       JwtAccessDeniedHandler jwtAccessDeniedHandler
    ) {
-      this.tokenProvider = tokenProvider;
+      this.jwtConfigurer = jwtConfigurer;
       this.corsFilter = corsFilter;
       this.authenticationErrorHandler = authenticationErrorHandler;
       this.jwtAccessDeniedHandler = jwtAccessDeniedHandler;
@@ -103,10 +103,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
          .anyRequest().authenticated()
 
          .and()
-         .apply(securityConfigurerAdapter());
-   }
-
-   private JWTConfigurer securityConfigurerAdapter() {
-      return new JWTConfigurer(tokenProvider);
+         .apply(jwtConfigurer);
    }
 }

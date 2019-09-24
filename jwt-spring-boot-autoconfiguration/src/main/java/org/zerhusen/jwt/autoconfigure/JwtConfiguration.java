@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.zerhusen.jwt.autoconfigure.properties.JwtProperties;
 import org.zerhusen.jwt.library.JWTFilter;
 import org.zerhusen.jwt.library.TokenProvider;
+import org.zerhusen.jwt.library.security.JWTConfigurer;
 
 @Configuration
 @EnableConfigurationProperties(JwtProperties.class)
@@ -22,6 +23,12 @@ public class JwtConfiguration {
    @ConditionalOnMissingBean
    public JWTFilter jwtFilter(final TokenProvider tokenProvider) {
       return new JWTFilter(tokenProvider);
+   }
+
+   @Bean
+   @ConditionalOnMissingBean
+   public JWTConfigurer jwtConfigurer(final TokenProvider tokenProvider) {
+      return new JWTConfigurer(tokenProvider);
    }
 
 }

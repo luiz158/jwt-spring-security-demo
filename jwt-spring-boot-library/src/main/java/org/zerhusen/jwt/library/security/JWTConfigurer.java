@@ -1,4 +1,4 @@
-package org.zerhusen.sample.app.security.jwt;
+package org.zerhusen.jwt.library.security;
 
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
