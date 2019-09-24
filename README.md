@@ -1,3 +1,7 @@
+# HINT
+
+This fork is in progress and tries to convert @szerhusenBC jwt demo to a spring boot starter. 
+
 # JWT Spring Security Demo
 
 ![Screenshot from running application](etc/screenshot-jwt-spring-security-demo.png?raw=true "Screenshot JWT Spring Security Demo")
