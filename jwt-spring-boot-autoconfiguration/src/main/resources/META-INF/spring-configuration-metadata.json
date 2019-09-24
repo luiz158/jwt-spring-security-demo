@@ -1,5 +1,65 @@
 {
-  "groups": [],
-  "properties": [],
-  "hints": []
+  "groups": [
+     {
+        "name": "jwt",
+        "type": "org.zerhusen.properties.JwtProperties",
+        "sourceType": "org.zerhusen.properties.JwtProperties"
+     }
+  ],
+  "properties": [
+     {
+        "name": "jwt.base64-secret",
+        "type": "java.lang.String",
+        "sourceType": "org.zerhusen.properties.JwtProperties",
+        "description": "This token must be encoded using Base64 with mininum 88 Bits (you can type `echo 'secret-key'|base64` on your command line)"
+     },
+     {
+        "name": "jwt.token-validity-in-seconds",
+        "type": "java.lang.Long",
+        "sourceType": "org.zerhusen.properties.JwtProperties"
+     },
+     {
+        "name": "jwt.token-validity-in-seconds-for-remember-me",
+        "type": "java.lang.Long",
+        "sourceType": "org.zerhusen.properties.JwtProperties"
+     }
+  ],
+  "hints": [
+     {
+        "name": "jwt.token-validity-in-seconds",
+        "values": [
+           {
+              "value": "86400",
+              "description": "24 hours (default)"
+           },
+           {
+              "value": "172800",
+              "description": "48 hoursr"
+           }
+        ],
+        "providers": [
+           {
+              "name": "any"
+           }
+        ]
+     },
+     {
+        "name": "jwt.token-validity-in-seconds-for-remember-me",
+        "values": [
+           {
+              "value": "108000",
+              "description": "30 hours (default)"
+           },
+           {
+              "value": "216000",
+              "description": "60 hours"
+           }
+        ],
+        "providers": [
+           {
+              "name": "any"
+           }
+        ]
+     }
+  ]
 }

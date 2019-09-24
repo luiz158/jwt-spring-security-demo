@@ -12,9 +12,9 @@ public class JwtProperties {
    @NotBlank
    private String base64Secret;
 
-   private long tokenValidityInSeconds;
+   private long tokenValidityInSeconds = 86400;
 
-   private long tokenValidityInSecondsForRememberMe;
+   private long tokenValidityInSecondsForRememberMe = 108000;
 
    public String getBase64Secret() {
       return base64Secret;
