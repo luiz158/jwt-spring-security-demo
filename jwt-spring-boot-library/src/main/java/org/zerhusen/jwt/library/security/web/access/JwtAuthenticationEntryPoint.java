@@ -1,4 +1,4 @@
-package org.zerhusen.sample.app.security;
+package org.zerhusen.jwt.library.security.web.access;
 
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@Component
 public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
    @Override

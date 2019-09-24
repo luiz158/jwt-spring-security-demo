@@ -13,9 +13,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.filter.CorsFilter;
 import org.zerhusen.jwt.library.security.JWTConfigurer;
-import org.zerhusen.sample.app.security.JwtAccessDeniedHandler;
-import org.zerhusen.sample.app.security.JwtAuthenticationEntryPoint;
-import org.zerhusen.jwt.library.TokenProvider;
+import org.zerhusen.jwt.library.security.web.access.JwtAccessDeniedHandler;
+import org.zerhusen.jwt.library.security.web.access.JwtAuthenticationEntryPoint;
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
@@ -75,6 +74,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
          .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
 
          .exceptionHandling()
+
+         // TODO [spring-boot-starter] add to documentation
          .authenticationEntryPoint(authenticationErrorHandler)
          .accessDeniedHandler(jwtAccessDeniedHandler)
 
@@ -103,6 +104,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
          .anyRequest().authenticated()
 
          .and()
+
+         // TODO [spring-boot-starter] add to documentation
          .apply(jwtConfigurer);
    }
 }

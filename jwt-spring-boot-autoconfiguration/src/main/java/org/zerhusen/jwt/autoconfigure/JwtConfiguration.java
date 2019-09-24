@@ -8,6 +8,8 @@ import org.zerhusen.jwt.autoconfigure.properties.JwtProperties;
 import org.zerhusen.jwt.library.JWTFilter;
 import org.zerhusen.jwt.library.TokenProvider;
 import org.zerhusen.jwt.library.security.JWTConfigurer;
+import org.zerhusen.jwt.library.security.web.access.JwtAccessDeniedHandler;
+import org.zerhusen.jwt.library.security.web.access.JwtAuthenticationEntryPoint;
 
 @Configuration
 @EnableConfigurationProperties(JwtProperties.class)
@@ -31,4 +33,15 @@ public class JwtConfiguration {
       return new JWTConfigurer(tokenProvider);
    }
 
+   @Bean
+   @ConditionalOnMissingBean
+   public JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint() {
+      return new JwtAuthenticationEntryPoint();
+   }
+
+   @Bean
+   @ConditionalOnMissingBean
+   public JwtAccessDeniedHandler jwtAccessDeniedHandler() {
+      return new JwtAccessDeniedHandler();
+   }
 }
