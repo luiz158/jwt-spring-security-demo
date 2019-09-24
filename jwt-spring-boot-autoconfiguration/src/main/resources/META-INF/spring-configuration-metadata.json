@@ -16,11 +16,13 @@
      {
         "name": "jwt.token-validity-in-seconds",
         "type": "java.lang.Long",
+        "defaultValue": 86400,
         "sourceType": "org.zerhusen.jwt.autoconfigure.properties.JwtProperties"
      },
      {
         "name": "jwt.token-validity-in-seconds-for-remember-me",
         "type": "java.lang.Long",
+        "defaultValue": 108000,
         "sourceType": "org.zerhusen.jwt.autoconfigure.properties.JwtProperties"
      }
   ],
