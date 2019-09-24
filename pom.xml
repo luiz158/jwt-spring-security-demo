@@ -9,6 +9,9 @@
    <packaging>pom</packaging>
 
    <modules>
+      <module>jwt-spring-boot-library</module>
+      <module>jwt-spring-boot-autoconfiguration</module>
+      <module>jwt-spring-boot-starter</module>
       <module>jwt-spring-boot-sample-app</module>
    </modules>
 
