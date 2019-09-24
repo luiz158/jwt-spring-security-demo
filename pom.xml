@@ -27,6 +27,7 @@
       <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
 
       <jjwt.version>0.10.6</jjwt.version>
+      <validation-api.version>2.0.1.Final</validation-api.version>
    </properties>
 
    <build>
@@ -77,6 +78,13 @@
             <artifactId>spring-boot-starter-security</artifactId>
             <version>${spring-boot.version}</version>
             <scope>provided</scope>
+         </dependency>
+
+         <!-- enable property validation -->
+         <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>${validation-api.version}</version>
          </dependency>
 
          <!-- testing libraries -->

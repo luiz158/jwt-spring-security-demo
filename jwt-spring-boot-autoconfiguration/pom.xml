@@ -20,6 +20,12 @@
          <artifactId>spring-boot-autoconfigure</artifactId>
       </dependency>
 
+      <!-- enable property validation -->
+      <dependency>
+         <groupId>javax.validation</groupId>
+         <artifactId>validation-api</artifactId>
+      </dependency>
+
       <!-- jwt starter libraries -->
       <dependency>
          <groupId>org.zerhusen</groupId>

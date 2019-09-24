@@ -6,13 +6,11 @@ import io.jsonwebtoken.security.Keys;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.util.Arrays;
@@ -20,7 +18,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.stream.Collectors;
 
-@Component
 public class TokenProvider implements InitializingBean {
 
    private final Logger log = LoggerFactory.getLogger(TokenProvider.class);
@@ -33,11 +30,7 @@ public class TokenProvider implements InitializingBean {
 
    private Key key;
 
-
-   public TokenProvider(
-      @Value("${jwt.base64-secret}") String base64Secret,
-      @Value("${jwt.token-validity-in-seconds}") long tokenValidityInSeconds,
-      @Value("${jwt.token-validity-in-seconds-for-remember-me}") long tokenValidityInSecondsForRememberMe) {
+   public TokenProvider(String base64Secret, long tokenValidityInSeconds, long tokenValidityInSecondsForRememberMe) {
       this.base64Secret = base64Secret;
       this.tokenValidityInMilliseconds = tokenValidityInSeconds * 1000;
       this.tokenValidityInMillisecondsForRememberMe = tokenValidityInSecondsForRememberMe * 1000;
