@@ -28,6 +28,9 @@
 
       <jjwt.version>0.10.6</jjwt.version>
       <validation-api.version>2.0.1.Final</validation-api.version>
+
+      <!-- testing -->
+      <junit-jupiter.version>5.5.2</junit-jupiter.version>
    </properties>
 
    <build>
@@ -97,6 +100,10 @@
                <exclusion>
                   <groupId>org.junit.jupiter</groupId>
                   <artifactId>junit-jupiter</artifactId>
+               </exclusion>
+               <exclusion>
+                  <groupId>junit</groupId>
+                  <artifactId>junit</artifactId>
                </exclusion>
             </exclusions>
          </dependency>
