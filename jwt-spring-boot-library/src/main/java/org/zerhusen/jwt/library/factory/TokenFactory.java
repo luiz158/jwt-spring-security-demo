@@ -1,4 +1,4 @@
-package org.zerhusen.jwt.library;
+package org.zerhusen.jwt.library.factory;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
@@ -7,10 +7,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
+import org.zerhusen.jwt.library.factory.model.Login;
 
 import java.security.Key;
 import java.util.Arrays;
@@ -18,19 +21,25 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.stream.Collectors;
 
-public class TokenProvider implements InitializingBean {
+// TODO [spring-boot-starter] test me!
+public class TokenFactory implements InitializingBean {
 
-   private final Logger log = LoggerFactory.getLogger(TokenProvider.class);
+   private final Logger log = LoggerFactory.getLogger(TokenFactory.class);
 
    private static final String AUTHORITIES_KEY = "auth";
 
+   private final AuthenticationManagerBuilder authenticationManagerBuilder;
    private final String base64Secret;
    private final long tokenValidityInMilliseconds;
    private final long tokenValidityInMillisecondsForRememberMe;
 
    private Key key;
 
-   public TokenProvider(String base64Secret, long tokenValidityInSeconds, long tokenValidityInSecondsForRememberMe) {
+   public TokenFactory(final AuthenticationManagerBuilder authenticationManagerBuilder,
+                       final String base64Secret,
+                       final long tokenValidityInSeconds,
+                       final long tokenValidityInSecondsForRememberMe) {
+      this.authenticationManagerBuilder = authenticationManagerBuilder;
       this.base64Secret = base64Secret;
       this.tokenValidityInMilliseconds = tokenValidityInSeconds * 1000;
       this.tokenValidityInMillisecondsForRememberMe = tokenValidityInSecondsForRememberMe * 1000;
@@ -42,14 +51,20 @@ public class TokenProvider implements InitializingBean {
       this.key = Keys.hmacShaKeyFor(keyBytes);
    }
 
-   public String createToken(Authentication authentication, boolean rememberMe) {
+   public String createToken(final Login login) {
+      UsernamePasswordAuthenticationToken authenticationToken =
+         new UsernamePasswordAuthenticationToken(login.getUsername(), login.getPassword());
+
+      Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+      SecurityContextHolder.getContext().setAuthentication(authentication);
+
       String authorities = authentication.getAuthorities().stream()
          .map(GrantedAuthority::getAuthority)
          .collect(Collectors.joining(","));
 
       long now = (new Date()).getTime();
       Date validity;
-      if (rememberMe) {
+      if (login.isRememberMe()) {
          validity = new Date(now + this.tokenValidityInMillisecondsForRememberMe);
       } else {
          validity = new Date(now + this.tokenValidityInMilliseconds);

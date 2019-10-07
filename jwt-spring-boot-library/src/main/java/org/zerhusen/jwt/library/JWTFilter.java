@@ -6,6 +6,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.GenericFilterBean;
+import org.zerhusen.jwt.library.factory.TokenFactory;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -24,10 +25,10 @@ public class JWTFilter extends GenericFilterBean {
 
    public static final String AUTHORIZATION_HEADER = "Authorization";
 
-   private TokenProvider tokenProvider;
+   private TokenFactory tokenFactory;
 
-   public JWTFilter(TokenProvider tokenProvider) {
-      this.tokenProvider = tokenProvider;
+   public JWTFilter(TokenFactory tokenFactory) {
+      this.tokenFactory = tokenFactory;
    }
 
    @Override
@@ -37,8 +38,8 @@ public class JWTFilter extends GenericFilterBean {
       String jwt = resolveToken(httpServletRequest);
       String requestURI = httpServletRequest.getRequestURI();
 
-      if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
-         Authentication authentication = tokenProvider.getAuthentication(jwt);
+      if (StringUtils.hasText(jwt) && tokenFactory.validateToken(jwt)) {
+         Authentication authentication = tokenFactory.getAuthentication(jwt);
          SecurityContextHolder.getContext().setAuthentication(authentication);
          LOG.debug("set Authentication to security context for '{}', uri: {}", authentication.getName(), requestURI);
       } else {

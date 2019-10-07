@@ -4,16 +4,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.zerhusen.jwt.library.JWTFilter;
-import org.zerhusen.jwt.library.TokenProvider;
+import org.zerhusen.jwt.library.factory.TokenFactory;
+import org.zerhusen.jwt.library.factory.model.Login;
 import org.zerhusen.sample.app.security.rest.dto.LoginDto;
 
 import javax.validation.Valid;
@@ -25,31 +23,25 @@ import javax.validation.Valid;
 @RequestMapping("/api")
 public class AuthenticationRestController {
 
-   private final TokenProvider tokenProvider;
+   private final TokenFactory tokenFactory;
 
-   private final AuthenticationManagerBuilder authenticationManagerBuilder;
-
-   public AuthenticationRestController(TokenProvider tokenProvider, AuthenticationManagerBuilder authenticationManagerBuilder) {
-      this.tokenProvider = tokenProvider;
-      this.authenticationManagerBuilder = authenticationManagerBuilder;
+   public AuthenticationRestController(TokenFactory tokenFactory) {
+      this.tokenFactory = tokenFactory;
    }
 
    @PostMapping("/authenticate")
    public ResponseEntity<JWTToken> authorize(@Valid @RequestBody LoginDto loginDto) {
 
-      UsernamePasswordAuthenticationToken authenticationToken =
-         new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword());
+      final String jwt = tokenFactory.createToken(map(loginDto));
 
-      Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
-      SecurityContextHolder.getContext().setAuthentication(authentication);
-
-      boolean rememberMe = (loginDto.isRememberMe() == null) ? false : loginDto.isRememberMe();
-      String jwt = tokenProvider.createToken(authentication, rememberMe);
-
-      HttpHeaders httpHeaders = new HttpHeaders();
+      final HttpHeaders httpHeaders = new HttpHeaders();
       httpHeaders.add(JWTFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
 
       return new ResponseEntity<>(new JWTToken(jwt), httpHeaders, HttpStatus.OK);
+   }
+
+   private Login map(LoginDto dto) {
+      return new Login(dto.getUsername(), dto.getPassword(), dto.isRememberMe() != null ? dto.isRememberMe() : false);
    }
 
    /**
