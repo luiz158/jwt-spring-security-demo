@@ -22,33 +22,25 @@ import java.util.Date;
 import java.util.stream.Collectors;
 
 // TODO [spring-boot-starter] test me!
-public class TokenFactory implements InitializingBean {
+public class TokenFactory {
 
    private final Logger log = LoggerFactory.getLogger(TokenFactory.class);
 
    private static final String AUTHORITIES_KEY = "auth";
 
    private final AuthenticationManagerBuilder authenticationManagerBuilder;
-   private final String base64Secret;
    private final long tokenValidityInMilliseconds;
    private final long tokenValidityInMillisecondsForRememberMe;
-
-   private Key key;
+   private final Key key;
 
    public TokenFactory(final AuthenticationManagerBuilder authenticationManagerBuilder,
                        final String base64Secret,
                        final long tokenValidityInSeconds,
                        final long tokenValidityInSecondsForRememberMe) {
       this.authenticationManagerBuilder = authenticationManagerBuilder;
-      this.base64Secret = base64Secret;
+      this.key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(base64Secret));
       this.tokenValidityInMilliseconds = tokenValidityInSeconds * 1000;
       this.tokenValidityInMillisecondsForRememberMe = tokenValidityInSecondsForRememberMe * 1000;
-   }
-
-   @Override
-   public void afterPropertiesSet() {
-      byte[] keyBytes = Decoders.BASE64.decode(base64Secret);
-      this.key = Keys.hmacShaKeyFor(keyBytes);
    }
 
    public String createToken(final Login login) {
