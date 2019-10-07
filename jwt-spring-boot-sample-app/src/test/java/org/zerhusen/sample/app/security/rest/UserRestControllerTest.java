@@ -1,7 +1,7 @@
 package org.zerhusen.sample.app.security.rest;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.zerhusen.sample.app.util.AbstractRestControllerTest;
@@ -13,7 +13,7 @@ import static org.zerhusen.sample.app.util.LogInUtils.getTokenForLogin;
 
 public class UserRestControllerTest extends AbstractRestControllerTest {
 
-   @Before
+   @BeforeEach
    public void setUp() {
       SecurityContextHolder.clearContext();
    }
