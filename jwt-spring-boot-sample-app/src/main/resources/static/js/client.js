@@ -35,7 +35,7 @@ $(function () {
             setJwtToken(data.id_token);
             $login.hide();
             $notLoggedIn.hide();
-            showTokenInformation()
+            showTokenInformation();
             showUserInformation();
          },
          error: function (jqXHR, textStatus, errorThrown) {
@@ -98,7 +98,8 @@ $(function () {
 
             $userInfoBody.append($authorities);
             $userInfo.show();
-         }
+         },
+         error: doLogout()
       });
    }
 
