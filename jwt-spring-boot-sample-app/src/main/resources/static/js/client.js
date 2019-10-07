@@ -98,8 +98,7 @@ $(function () {
 
             $userInfoBody.append($authorities);
             $userInfo.show();
-         },
-         error: doLogout()
+         }
       });
    }
 
