@@ -3,6 +3,7 @@ package org.zerhusen.sample.app.security;
 import org.hibernate.validator.internal.constraintvalidators.hv.EmailValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -59,5 +60,14 @@ public class UserModelDetailsService implements UserDetailsService {
       return new org.springframework.security.core.userdetails.User(user.getUsername(),
          user.getPassword(),
          grantedAuthorities);
+   }
+}
+
+/**
+ * This exception is thrown in case of a not activated user trying to authenticate.
+ */
+class UserNotActivatedException extends AuthenticationException {
+   UserNotActivatedException(String message) {
+      super(message);
    }
 }
