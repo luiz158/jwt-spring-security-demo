@@ -1,4 +1,4 @@
-package org.zerhusen.sample.app.security.model;
+package org.zerhusen.sample.app.database.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -26,7 +26,7 @@ public class Authority {
       if (this == o) return true;
       if (o == null || getClass() != o.getClass()) return false;
       Authority authority = (Authority) o;
-      return name == authority.name;
+      return name.equals(authority.name);
    }
 
    @Override

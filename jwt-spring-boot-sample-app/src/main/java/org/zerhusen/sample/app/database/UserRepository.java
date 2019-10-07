@@ -1,8 +1,8 @@
-package org.zerhusen.sample.app.security.repository;
+package org.zerhusen.sample.app.database;
 
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.zerhusen.sample.app.security.model.User;
+import org.zerhusen.sample.app.database.model.User;
 
 import java.util.Optional;
 

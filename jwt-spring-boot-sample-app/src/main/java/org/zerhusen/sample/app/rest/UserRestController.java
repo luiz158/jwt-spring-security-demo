@@ -1,10 +1,10 @@
-package org.zerhusen.sample.app.security.rest;
+package org.zerhusen.sample.app.rest;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.zerhusen.sample.app.security.model.User;
+import org.zerhusen.sample.app.database.model.User;
 import org.zerhusen.sample.app.security.service.UserService;
 
 @RestController
