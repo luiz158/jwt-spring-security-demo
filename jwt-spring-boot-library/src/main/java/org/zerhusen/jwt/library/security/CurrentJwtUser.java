@@ -1,4 +1,4 @@
-package org.zerhusen.sample.app.security;
+package org.zerhusen.jwt.library.security;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,11 +8,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Optional;
 
-public class SecurityUtils {
+public class CurrentJwtUser {
 
-   private static final Logger LOG = LoggerFactory.getLogger(SecurityUtils.class);
+   private static final Logger LOG = LoggerFactory.getLogger(CurrentJwtUser.class);
 
-   private SecurityUtils() {
+   private CurrentJwtUser() {
    }
 
    /**
@@ -20,7 +20,7 @@ public class SecurityUtils {
     *
     * @return the login of the current user.
     */
-   public static Optional<String> getCurrentUsername() {
+   public static Optional<String> getUsername() {
       final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
       if (authentication == null) {

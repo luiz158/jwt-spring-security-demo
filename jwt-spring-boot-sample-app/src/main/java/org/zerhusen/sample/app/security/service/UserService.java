@@ -2,7 +2,7 @@ package org.zerhusen.sample.app.security.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.zerhusen.sample.app.security.SecurityUtils;
+import org.zerhusen.jwt.library.security.CurrentJwtUser;
 import org.zerhusen.sample.app.database.model.User;
 import org.zerhusen.sample.app.database.UserRepository;
 
@@ -20,7 +20,7 @@ public class UserService {
 
    @Transactional(readOnly = true)
    public Optional<User> getUserWithAuthorities() {
-      return SecurityUtils.getCurrentUsername().flatMap(userRepository::findOneWithAuthoritiesByUsername);
+      return CurrentJwtUser.getUsername().flatMap(userRepository::findOneWithAuthoritiesByUsername);
    }
 
 }

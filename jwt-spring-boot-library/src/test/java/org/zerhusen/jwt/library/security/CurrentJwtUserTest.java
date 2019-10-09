@@ -1,4 +1,4 @@
-package org.zerhusen.sample.app.security;
+package org.zerhusen.jwt.library.security;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -9,7 +9,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class SecurityUtilsTest {
+public class CurrentJwtUserTest {
 
    @Test
    public void getCurrentUsername() {
@@ -17,15 +17,16 @@ public class SecurityUtilsTest {
       securityContext.setAuthentication(new UsernamePasswordAuthenticationToken("admin", "admin"));
       SecurityContextHolder.setContext(securityContext);
 
-      Optional<String> username = SecurityUtils.getCurrentUsername();
+      Optional<String> username = CurrentJwtUser.getUsername();
 
       assertThat(username).contains("admin");
    }
 
    @Test
    public void getCurrentUsernameForNoAuthenticationInContext() {
-      Optional<String> username = SecurityUtils.getCurrentUsername();
+      Optional<String> username = CurrentJwtUser.getUsername();
 
       assertThat(username).isEmpty();
    }
 }
+
