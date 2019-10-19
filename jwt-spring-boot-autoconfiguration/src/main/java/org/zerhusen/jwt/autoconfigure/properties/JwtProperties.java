@@ -1,6 +1,8 @@
 package org.zerhusen.jwt.autoconfigure.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.ConstructorBinding;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotBlank;
@@ -10,33 +12,31 @@ import javax.validation.constraints.NotBlank;
 public class JwtProperties {
 
    @NotBlank
-   private String base64Secret;
+   private final String base64Secret;
 
-   private long tokenValidityInSeconds = 86400;
+   private final long tokenValidityInSeconds;
 
-   private long tokenValidityInSecondsForRememberMe = 108000;
+   private final long tokenValidityInSecondsForRememberMe;
+
+   @ConstructorBinding
+   public JwtProperties(@NotBlank String base64Secret,
+                        @DefaultValue("86400") long tokenValidityInSeconds,
+                        @DefaultValue("108000") long tokenValidityInSecondsForRememberMe) {
+      this.base64Secret = base64Secret;
+      this.tokenValidityInSeconds = tokenValidityInSeconds;
+      this.tokenValidityInSecondsForRememberMe = tokenValidityInSecondsForRememberMe;
+   }
 
    public String getBase64Secret() {
       return base64Secret;
-   }
-
-   public void setBase64Secret(String base64Secret) {
-      this.base64Secret = base64Secret;
    }
 
    public long getTokenValidityInSeconds() {
       return tokenValidityInSeconds;
    }
 
-   public void setTokenValidityInSeconds(long tokenValidityInSeconds) {
-      this.tokenValidityInSeconds = tokenValidityInSeconds;
-   }
-
    public long getTokenValidityInSecondsForRememberMe() {
       return tokenValidityInSecondsForRememberMe;
    }
 
-   public void setTokenValidityInSecondsForRememberMe(long tokenValidityInSecondsForRememberMe) {
-      this.tokenValidityInSecondsForRememberMe = tokenValidityInSecondsForRememberMe;
-   }
 }
