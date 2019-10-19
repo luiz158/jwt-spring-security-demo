@@ -19,7 +19,7 @@
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
       <java.version>11</java.version>
 
-      <spring-boot.version>2.1.9.RELEASE</spring-boot.version>
+      <spring-boot.version>2.2.0.RELEASE</spring-boot.version>
 
       <maven.min.version>3.2.1</maven.min.version>
       <maven.compiler.target>${java.version}</maven.compiler.target>
@@ -115,10 +115,6 @@
                <exclusion>
                   <groupId>org.junit.jupiter</groupId>
                   <artifactId>junit-jupiter</artifactId>
-               </exclusion>
-               <exclusion>
-                  <groupId>junit</groupId>
-                  <artifactId>junit</artifactId>
                </exclusion>
                <exclusion>
                   <groupId>org.assertj</groupId>
