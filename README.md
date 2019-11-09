@@ -1,4 +1,4 @@
-# HINT
+# HINT [![Build Status](https://travis-ci.org/larmic/jwt-spring-security-demo.svg?branch=master)](https://travis-ci.org/larmic/jwt-spring-security-demo) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 This fork is in progress and tries to convert @szerhusenBC jwt demo to a spring boot starter. 
 
@@ -11,8 +11,6 @@ This is a demo for using **[JWT (JSON Web Token)](https://jwt.io)** with **[Spri
 **[Spring Boot](https://spring.io/projects/spring-boot)**. I completely rewrote my first version. Now this solution is based on the code base
 from the [JHipster Project](https://www.jhipster.tech/). I tried to extract the minimal configuration and classes that are needed 
 for JWT-Authentication and did some changes.
-
-[![Build Status](https://travis-ci.org/szerhusenBC/jwt-spring-security-demo.svg?branch=master)](https://travis-ci.org/szerhusenBC/jwt-spring-security-demo)
 
 ## Requirements
 This demo is build with with Maven 3.6.x and Java 11.
