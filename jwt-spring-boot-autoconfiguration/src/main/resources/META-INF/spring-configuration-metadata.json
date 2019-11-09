@@ -2,28 +2,28 @@
   "groups": [
      {
         "name": "jwt",
-        "type": "org.zerhusen.jwt.autoconfigure.properties.JwtProperties",
-        "sourceType": "org.zerhusen.jwt.autoconfigure.properties.JwtProperties"
+        "type": "de.coderspack.spring.boot.jwt.autoconfigure.properties.JwtProperties",
+        "sourceType": "de.coderspack.spring.boot.jwt.autoconfigure.properties.JwtProperties"
      }
   ],
   "properties": [
      {
         "name": "jwt.base64-secret",
         "type": "java.lang.String",
-        "sourceType": "org.zerhusen.jwt.autoconfigure.properties.JwtProperties",
+        "sourceType": "de.coderspack.spring.boot.jwt.autoconfigure.properties.JwtProperties",
         "description": "This token must be encoded using Base64 with mininum 88 Bits (you can type `echo 'secret-key'|base64` on your command line)"
      },
      {
         "name": "jwt.token-validity-in-seconds",
         "type": "java.lang.Long",
         "defaultValue": 86400,
-        "sourceType": "org.zerhusen.jwt.autoconfigure.properties.JwtProperties"
+        "sourceType": "de.coderspack.spring.boot.jwt.autoconfigure.properties.JwtProperties"
      },
      {
         "name": "jwt.token-validity-in-seconds-for-remember-me",
         "type": "java.lang.Long",
         "defaultValue": 108000,
-        "sourceType": "org.zerhusen.jwt.autoconfigure.properties.JwtProperties"
+        "sourceType": "de.coderspack.spring.boot.jwt.autoconfigure.properties.JwtProperties"
      }
   ],
   "hints": [

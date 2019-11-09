@@ -36,6 +36,16 @@
          <artifactId>jwt-spring-boot-library</artifactId>
          <version>${project.version}</version>
       </dependency>
+
+      <!-- testing libraries -->
+      <dependency>
+         <groupId>org.apache.maven.plugins</groupId>
+         <artifactId>maven-surefire-plugin</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>org.apache.maven.plugins</groupId>
+         <artifactId>maven-failsafe-plugin</artifactId>
+      </dependency>
    </dependencies>
 
    <build>

@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-org.zerhusen.jwt.autoconfigure.JwtConfiguration
+de.coderspack.spring.boot.jwt.autoconfigure.JwtConfiguration

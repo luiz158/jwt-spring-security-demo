@@ -52,21 +52,27 @@
          <scope>runtime</scope>
       </dependency>
 
+      <!-- testing libraries -->
       <dependency>
          <groupId>org.springframework.boot</groupId>
          <artifactId>spring-boot-starter-test</artifactId>
-         <scope>test</scope>
       </dependency>
       <dependency>
          <groupId>org.springframework.security</groupId>
          <artifactId>spring-security-test</artifactId>
          <version>5.2.0.RELEASE</version>
-         <scope>test</scope>
       </dependency>
       <dependency>
          <groupId>org.junit.jupiter</groupId>
          <artifactId>junit-jupiter</artifactId>
-         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <groupId>org.apache.maven.plugins</groupId>
+         <artifactId>maven-surefire-plugin</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>org.apache.maven.plugins</groupId>
+         <artifactId>maven-failsafe-plugin</artifactId>
       </dependency>
    </dependencies>
 
