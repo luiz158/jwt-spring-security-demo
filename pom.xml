@@ -15,6 +15,24 @@
       <module>jwt-spring-boot-sample-app</module>
    </modules>
 
+   <licenses>
+      <license>
+         <name>MIT license</name>
+         <url>http://www.opensource.org/licenses/mit-license.php</url>
+      </license>
+   </licenses>
+
+   <developers>
+      <developer>
+         <name>Lars Michaelis</name>
+         <email>mail@larmic.de</email>
+      </developer>
+      <developer>
+         <name>Stephan Zerhusen</name>
+         <email>stephan.zerhusen@gmail.com</email>
+      </developer>
+   </developers>
+
    <properties>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
       <java.version>11</java.version>
