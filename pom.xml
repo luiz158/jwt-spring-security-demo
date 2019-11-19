@@ -64,6 +64,9 @@
       <maven.compiler.source>${java.version}</maven.compiler.source>
       <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
 
+      <!-- java doc breaks with jdk 11.0.2 and lower -->
+      <maven.javadoc.skip>true</maven.javadoc.skip>
+
       <jjwt.version>0.10.6</jjwt.version>
       <validation-api.version>2.0.1.Final</validation-api.version>
 
