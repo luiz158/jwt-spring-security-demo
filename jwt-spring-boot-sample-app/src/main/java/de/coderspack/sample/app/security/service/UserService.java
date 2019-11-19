@@ -20,6 +20,7 @@ public class UserService {
 
    @Transactional(readOnly = true)
    public Optional<User> getUserWithAuthorities() {
+      // TODO [spring-boot-starter] add to documentation
       return CurrentJwtUser.getUsername().flatMap(userRepository::findOneWithAuthoritiesByUsername);
    }
 

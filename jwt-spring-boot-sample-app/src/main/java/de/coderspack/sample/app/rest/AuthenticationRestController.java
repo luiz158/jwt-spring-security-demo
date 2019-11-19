@@ -31,6 +31,7 @@ public class AuthenticationRestController {
    @PostMapping("/authenticate")
    public ResponseEntity<JWTToken> authorize(@Valid @RequestBody LoginDto loginDto) {
 
+      // TODO [spring-boot-starter] add to documentation
       final String jwt = tokenFactory.createToken(map(loginDto));
 
       final HttpHeaders httpHeaders = new HttpHeaders();

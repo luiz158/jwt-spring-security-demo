@@ -26,7 +26,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
    public WebSecurityConfig(
-      JWTConfigurer jwtConfigurer,
+      JWTConfigurer jwtConfigurer, // TODO [spring-boot-starter] add to documentation
       CorsFilter corsFilter,
       JwtAuthenticationEntryPoint authenticationErrorHandler,
       JwtAccessDeniedHandler jwtAccessDeniedHandler
