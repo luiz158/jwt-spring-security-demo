@@ -7,6 +7,10 @@
    <version>0.0.2-SNAPSHOT</version>
    <packaging>pom</packaging>
 
+   <name>spring-boot-starter-jwt</name>
+   <description>Coders Pack Spring Boot JWT Starter</description>
+   <url>http://www.coderspack.de</url>
+
    <modules>
       <module>jwt-spring-boot-library</module>
       <module>jwt-spring-boot-autoconfiguration</module>
