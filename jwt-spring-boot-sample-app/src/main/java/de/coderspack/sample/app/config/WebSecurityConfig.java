@@ -39,6 +39,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
    // Configure BCrypt password encoder =====================================================================
 
+   // TODO [spring-boot-starter] add to documentation
    @Bean
    public PasswordEncoder passwordEncoder() {
       return new BCryptPasswordEncoder();
