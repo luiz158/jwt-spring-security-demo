@@ -62,5 +62,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 }
 ```
 
-**TODO*+ Migrate TODO Notes from https://github.com/coderspack/spring-boot-starter-jwt-java-demo 
+**TODO** Migrate TODO Notes from https://github.com/coderspack/spring-boot-starter-jwt-java-demo 
 to this documentation.
