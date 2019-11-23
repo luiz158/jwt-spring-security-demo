@@ -61,5 +61,43 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 }
 ```
 
+Authenticate
+```java
+import de.coderspack.spring.boot.jwt.autoconfigure.properties.JwtProperties;
+import de.coderspack.spring.boot.jwt.library.security.JwtAuthenticationManager;
+
+@RestController
+@RequestMapping("/api")
+public class AuthenticationRestController {
+
+   private final JwtAuthenticationManager jwtAuthenticationManager;
+   private final JwtProperties jwtProperties;
+
+   public AuthenticationRestController(final JwtAuthenticationManager jwtAuthenticationManager, 
+                                       final JwtProperties jwtProperties) {
+      this.jwtAuthenticationManager = jwtAuthenticationManager;
+      this.jwtProperties = jwtProperties;
+   }
+
+   @PostMapping("/authenticate")
+   public ResponseEntity<String> authorize(@Valid @RequestBody LoginDto loginDto) {
+      final var jwt = jwtAuthenticationManager.authenticate(loginDto.getUsername(), loginDto.getPassword(), loginDto.isRememberMe());
+
+      final var httpHeaders = new HttpHeaders();
+      httpHeaders.add(jwtProperties.getHeader(), "Bearer " + jwt);
+
+      return new ResponseEntity<>(jwt, httpHeaders, HttpStatus.OK);
+   }
+}
+```
+
+Configure `application.properties`
+```properties
+# This token must be encoded using Base64 with mininum 88 Bits (you can type `echo 'secret-key'|base64` on your command line)
+jwt.base64-secret=<my-secret-in-base64>
+```
+
+Implement `org.springframework.security.core.userdetails.UserDetailsService.java`.
+
 **TODO** Migrate TODO Notes from https://github.com/coderspack/spring-boot-starter-jwt-java-demo 
 to this documentation.
