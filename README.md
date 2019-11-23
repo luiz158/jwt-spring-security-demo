@@ -11,7 +11,7 @@ _Maven_
 ```xml
 <dependency>
   <groupId>de.coderspack</groupId>
-  <artifactId>spring-boot-starter-jwt</artifactId>
+  <artifactId>jwt-spring-boot-starter</artifactId>
   <version>0.0.1</version>
   <type>pom</type>
 </dependency>

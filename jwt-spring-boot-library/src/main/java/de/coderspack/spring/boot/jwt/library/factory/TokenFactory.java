@@ -32,6 +32,7 @@ public class TokenFactory {
    private final long tokenValidityInMillisecondsForRememberMe;
    private final Key key;
 
+   // TODO #1 add additional createToken(username, password, remember)
    public TokenFactory(final AuthenticationManagerBuilder authenticationManagerBuilder,
                        final String base64Secret,
                        final long tokenValidityInSeconds,
