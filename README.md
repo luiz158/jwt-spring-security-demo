@@ -3,6 +3,11 @@
 This is a spring boot starter based on [Stephan's Spring Boot JWT Demo](https://github.com/szerhusenBC/jwt-spring-security-demo).
 This starter is still in progress and not production ready.
 
+## Requirements
+
+* JDK 11 or higher
+* Spring Boot 2.2.x
+
 ## Getting started
 
 Coders pack spring boot jwt starter is available in [maven central repository](https://search.maven.org/search?q=coderspack)
