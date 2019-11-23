@@ -44,7 +44,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                              JwtAuthenticationEntryPoint authenticationErrorHandler,
                              JwtAccessDeniedHandler jwtAccessDeniedHandler) {
        this.jwtConfigurer = jwtConfigurer;
-       this.corsFilter = corsFilter;
        this.authenticationErrorHandler = authenticationErrorHandler;
        this.jwtAccessDeniedHandler = jwtAccessDeniedHandler;
     }
