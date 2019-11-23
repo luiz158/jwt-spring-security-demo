@@ -9,7 +9,6 @@ import javax.validation.constraints.NotBlank;
 
 @ConfigurationProperties(prefix = "jwt")
 @Validated
-// TODO #2 add missing properties and rename prefix
 public class JwtProperties {
 
    @NotBlank
