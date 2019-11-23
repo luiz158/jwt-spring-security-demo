@@ -24,14 +24,14 @@ public class JwtConfiguration {
 
    @Bean
    @ConditionalOnMissingBean
-   public JWTFilter jwtFilter(final TokenFactory tokenFactory) {
-      return new JWTFilter(tokenFactory);
+   public JWTFilter jwtFilter(final TokenFactory tokenFactory, final JwtProperties jwtProperties) {
+      return new JWTFilter(tokenFactory, jwtProperties.getHeader());
    }
 
    @Bean
    @ConditionalOnMissingBean
-   public JWTConfigurer jwtConfigurer(final TokenFactory tokenFactory) {
-      return new JWTConfigurer(tokenFactory);
+   public JWTConfigurer jwtConfigurer(final TokenFactory tokenFactory, final JwtProperties jwtProperties) {
+      return new JWTConfigurer(tokenFactory, jwtProperties.getHeader());
    }
 
    @Bean
