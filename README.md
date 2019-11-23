@@ -12,13 +12,13 @@ _Maven_
 <dependency>
   <groupId>de.coderspack</groupId>
   <artifactId>jwt-spring-boot-starter</artifactId>
-  <version>0.0.1</version>
+  <version>0.0.2</version>
 </dependency>
 ```
 
 _Gradle_
 ```
-implementation 'de.coderspack:spring-boot-starter-jwt:0.0.1'
+implementation 'de.coderspack:spring-boot-starter-jwt:0.0.2'
 ```
 
 _Code_
