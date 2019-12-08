@@ -32,6 +32,27 @@ spring:
       fail-on-empty-beans: false
       WRITE_DATES_AS_TIMESTAMPS: false
 
+  mail:
+    host:
+    port: 587
+    username:
+    password:
+
+      # Other properties
+    smtp:
+      auth: true
+      connectiontimeout: 5000
+      timeout: 5000
+      writetimeout: 5000
+
+      # TLS , port 587
+      starttls:
+        enable: true
+
+mail:
+  from:
+  host:
+
 logging:
   level:
      org.hibernate: DEBUG

@@ -38,4 +38,6 @@ public class Invoice {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd")
     private LocalDate paid;
+
+    private String htmlText;
 }

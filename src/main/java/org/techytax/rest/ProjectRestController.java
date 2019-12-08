@@ -33,6 +33,12 @@ public class ProjectRestController {
         return projectRepository.findByUser(username);
     }
 
+    @RequestMapping(value = "auth/project/current", method = RequestMethod.GET)
+    public Collection<Project> getCurrentProjects(HttpServletRequest request) {
+        String username = getUser(request);
+        return projectRepository.findCurrentProjects(username);
+    }
+
     @RequestMapping(value = "auth/project/{id}", method = RequestMethod.GET)
     public Project getProject(HttpServletRequest request, @PathVariable Long id) {
         return projectRepository.findOne(id);

@@ -11,6 +11,9 @@ public interface ProjectRepository extends CrudRepository<Project, Long> {
 
     Collection<Project> findByUser(String username);
 
+    @Query("select p from Project p where p.user = ?1 and p.endDate is null")
+    Collection<Project> findCurrentProjects(String username);
+
     @Modifying
     @Query("delete from Project p where p.user = ?1")
     void deleteProjectsByUser(String username);

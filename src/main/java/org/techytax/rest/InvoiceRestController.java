@@ -6,7 +6,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +20,6 @@ import org.techytax.saas.repository.RegistrationRepository;
 import org.techytax.security.JwtTokenUtil;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Collection;
 
@@ -37,13 +35,19 @@ public class InvoiceRestController {
 
     private InvoiceCreator invoiceCreator;
     private RegistrationRepository registrationRepository;
+    private MailHelper mailHelper;
 
     @Autowired
-    public InvoiceRestController(JwtTokenUtil jwtTokenUtil, InvoiceRepository invoiceRepository, InvoiceCreator invoiceCreator, RegistrationRepository registrationRepository) {
+    public InvoiceRestController(JwtTokenUtil jwtTokenUtil,
+                                 InvoiceRepository invoiceRepository,
+                                 InvoiceCreator invoiceCreator,
+                                 RegistrationRepository registrationRepository,
+                                 MailHelper mailHelper) {
         this.jwtTokenUtil = jwtTokenUtil;
         this.invoiceRepository = invoiceRepository;
         this.invoiceCreator = invoiceCreator;
         this.registrationRepository = registrationRepository;
+        this.mailHelper = mailHelper;
     }
 
     @RequestMapping(value = "auth/invoice", method = RequestMethod.GET)
@@ -66,7 +70,7 @@ public class InvoiceRestController {
     }
 
     @RequestMapping(value = "auth/invoice/{id}", method = RequestMethod.GET)
-    public ResponseEntity<byte[]> createInvoicePdf(HttpServletRequest request, @PathVariable Long id) throws IOException {
+    public ResponseEntity<byte[]> createInvoicePdf(HttpServletRequest request, @PathVariable Long id) {
         Invoice invoice = invoiceRepository.findOne(id);
         String username = getUser(request);
         Registration registration = registrationRepository.findByUser(username).stream().findFirst().get();
@@ -81,6 +85,18 @@ public class InvoiceRestController {
         return new ResponseEntity<>(contents, headers, HttpStatus.OK);
     }
 
+    @RequestMapping(value = "auth/invoice/send", method = RequestMethod.POST)
+    public ResponseEntity.BodyBuilder sendInvoicePdf(HttpServletRequest request, @RequestBody Invoice invoice) throws Exception {
+        String username = getUser(request);
+        Registration registration = registrationRepository.findByUser(username).stream().findFirst().get();
+        invoice.setUser(username);
+        invoice.setSent(LocalDate.now());
+        byte[] contents = invoiceCreator.createPdfInvoice(invoice, registration);
+        mailHelper.sendInvoice(invoice.getHtmlText(), invoice, contents, registration);
+//        invoiceRepository.save(invoice);
+        return ResponseEntity.ok();
+    }
+
     @RequestMapping(value = "auth/invoice/{id}/send", method = RequestMethod.POST)
     public ResponseEntity.BodyBuilder sendInvoicePdf(HttpServletRequest request, @PathVariable Long id, @RequestBody String htmlText) throws Exception {
         Invoice invoice = invoiceRepository.findOne(id);
@@ -89,19 +105,19 @@ public class InvoiceRestController {
         invoice.setUser(username);
         invoice.setSent(LocalDate.now());
         byte[] contents = invoiceCreator.createPdfInvoice(invoice, registration);
-        MailHelper.sendInvoice(htmlText, invoice, contents, registration);
-        invoiceRepository.save(invoice);
+        mailHelper.sendInvoice(htmlText, invoice, contents, registration);
+//        invoiceRepository.save(invoice);
         return ResponseEntity.ok();
     }
 
-    @RequestMapping(value = "auth/invoice/{id}/remind", method = RequestMethod.POST)
-    public ResponseEntity.BodyBuilder sendReminder(HttpServletRequest request, @PathVariable Long id, @RequestBody String htmlText) throws Exception {
-        Invoice invoice = invoiceRepository.findOne(id);
-        String username = getUser(request);
-        Registration registration = registrationRepository.findByUser(username).stream().findFirst().get();
-        MailHelper.sendReminder(htmlText, invoice, registration);
-        return ResponseEntity.ok();
-    }
+//    @RequestMapping(value = "auth/invoice/{id}/remind", method = RequestMethod.POST)
+//    public ResponseEntity.BodyBuilder sendReminder(HttpServletRequest request, @PathVariable Long id, @RequestBody String htmlText) throws Exception {
+//        Invoice invoice = invoiceRepository.findOne(id);
+//        String username = getUser(request);
+//        Registration registration = registrationRepository.findByUser(username).stream().findFirst().get();
+//        MailHelper.sendReminder(htmlText, invoice, registration);
+//        return ResponseEntity.ok();
+//    }
 
     @RequestMapping(value = "auth/invoice/{id}", method = RequestMethod.DELETE)
     public void deleteInvoice(HttpServletRequest request, @PathVariable Long id) {
