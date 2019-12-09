@@ -93,7 +93,7 @@ public class InvoiceRestController {
         invoice.setSent(LocalDate.now());
         byte[] contents = invoiceCreator.createPdfInvoice(invoice, registration);
         mailHelper.sendInvoice(invoice.getHtmlText(), invoice, contents, registration);
-//        invoiceRepository.save(invoice);
+        invoiceRepository.save(invoice);
         return ResponseEntity.ok();
     }
 
