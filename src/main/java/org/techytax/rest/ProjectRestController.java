@@ -41,7 +41,7 @@ public class ProjectRestController {
 
     @RequestMapping(value = "auth/project/{id}", method = RequestMethod.GET)
     public Project getProject(HttpServletRequest request, @PathVariable Long id) {
-        return projectRepository.findOne(id);
+        return projectRepository.findById(id).get();
     }
 
     @RequestMapping(value = "auth/project", method = { RequestMethod.PUT, RequestMethod.POST })
@@ -53,7 +53,7 @@ public class ProjectRestController {
 
     @RequestMapping(value = "auth/project/{id}", method = RequestMethod.DELETE)
     public void deleteCustomer(HttpServletRequest request, @PathVariable Long id) {
-        projectRepository.delete(id);
+        projectRepository.deleteById(id);
     }
 
     private String getUser(HttpServletRequest request) {

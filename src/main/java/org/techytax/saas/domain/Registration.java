@@ -2,6 +2,7 @@ package org.techytax.saas.domain;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.techytax.domain.VatPeriodType;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -17,11 +18,6 @@ import java.time.LocalDate;
 @Setter
 public class Registration {
 
-  enum DeclationPeriod {
-    QUARTERLY,
-    YEARLY
-  }
-
   @Entity
   @Getter
   @Setter
@@ -36,7 +32,7 @@ public class Registration {
     String phoneNumber;
 
     public String getFullName() {
-      StringBuffer sb = new StringBuffer();
+      StringBuilder sb = new StringBuilder();
       if (surname != null) {
         sb.append(initials);
         if (prefix != null) {
@@ -67,7 +63,7 @@ public class Registration {
     Long chamberOfCommerceNumber;
 
     public String getFullAddress() {
-      StringBuffer sb = new StringBuffer();
+      StringBuilder sb = new StringBuilder();
       sb.append(address);
       if (zipCode != null) {
         sb.append(", ");
@@ -87,7 +83,7 @@ public class Registration {
     @GeneratedValue
     Long id = 0L;
     String vatNumber;
-    DeclationPeriod declarationPeriod;
+    VatPeriodType declarationPeriod;
   }
 
   @Id

@@ -42,7 +42,7 @@ public class BookRestController {
 
     @RequestMapping(value = "auth/book/{id}", method = RequestMethod.DELETE)
     public void deleteBookValue(HttpServletRequest request, @PathVariable Long id) {
-        bookRepository.delete(id);
+        bookRepository.deleteById(id);
     }
 
     private String getUser(HttpServletRequest request) {

@@ -64,7 +64,7 @@ public class ActivumRestController {
 
     @RequestMapping(value = "auth/activum/{id}", method = RequestMethod.DELETE)
     public void deleteActivum(HttpServletRequest request, @PathVariable Long id) {
-        activumRepository.delete(id);
+        activumRepository.deleteById(id);
     }
 
     private String getUser(HttpServletRequest request) {

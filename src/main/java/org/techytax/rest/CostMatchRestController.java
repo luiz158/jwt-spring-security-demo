@@ -37,7 +37,7 @@ public class CostMatchRestController {
 
     @RequestMapping(value = "auth/match/{id}", method = RequestMethod.DELETE)
     public void deleteCostMatch(HttpServletRequest request, @PathVariable Long id) {
-        costMatchRepository.delete(id);
+        costMatchRepository.deleteById(id);
     }
 
     private String getUser(HttpServletRequest request) {

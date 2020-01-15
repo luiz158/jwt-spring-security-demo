@@ -150,26 +150,35 @@ public class FiscalRestController {
     private VatDeclarationData createVatDeclarationData(String username, VatReport vatReport) throws Exception {
         Registration registration = registrationRepository.findByUser(username).stream().findFirst().get();
         VatDeclarationData data = new VatDeclarationData();
-        FiscalPeriod period = DateHelper.getLatestVatPeriod(VatPeriodType.PER_QUARTER);
+        FiscalPeriod period = DateHelper.getLatestVatPeriod(registration.getFiscalData().getDeclarationPeriod());
         data.setStartDate(period.getBeginDate());
         data.setEndDate(period.getEndDate());
         data.setFiscalNumber(registration.getFiscalData().getVatNumber());
         data.setInitials(registration.getPersonalData().getInitials());
         data.setSurname(registration.getPersonalData().getSurname());
         data.setPhoneNumber(ZERO_PREFIX_PHONE_NUMBER +registration.getPersonalData().getPhoneNumber());
-        data.setValueAddedTaxOnInput(roundDownToInteger(vatReport.getTotalVatOut()));
-        data.setValueAddedTaxPrivateUse(vatReport.getVatCorrectionForPrivateUsage());
         data.setTaxedTurnoverSuppliesServicesGeneralTariff(roundDownToInteger(vatReport.getSentInvoices()));
-        data.setValueAddedTaxSuppliesServicesGeneralTariff(roundDownToInteger(new BigDecimal(data.getTaxedTurnoverSuppliesServicesGeneralTariff()).multiply(BigDecimal.valueOf(VatType.HIGH.getValue()))));
-        BigInteger owed = data.getValueAddedTaxSuppliesServicesGeneralTariff();
-        if (data.getValueAddedTaxPrivateUse() != null) {
-            owed = owed.add(data.getValueAddedTaxPrivateUse());
+        BigInteger tax = roundDownToInteger(new BigDecimal(data.getTaxedTurnoverSuppliesServicesGeneralTariff())
+                .multiply(BigDecimal.valueOf(VatType.HIGH.getValue())));
+        if (VatPeriodType.PER_QUARTER.equals(registration.getFiscalData().getDeclarationPeriod())) {
+            data.setValueAddedTaxOnInput(roundDownToInteger(vatReport.getTotalVatOut()));
+            data.setValueAddedTaxPrivateUse(vatReport.getVatCorrectionForPrivateUsage());
+            data.setValueAddedTaxSuppliesServicesGeneralTariff(tax);
+            BigInteger owed = data.getValueAddedTaxSuppliesServicesGeneralTariff();
+            if (data.getValueAddedTaxPrivateUse() != null) {
+                owed = owed.add(data.getValueAddedTaxPrivateUse());
+            } else {
+                data.setValueAddedTaxPrivateUse(BigInteger.ZERO);
+            }
+            data.setValueAddedTaxOwed(owed);
+            BigInteger owedToBePaidBack = owed.subtract(data.getValueAddedTaxOnInput());
+            data.setValueAddedTaxOwedToBePaidBack(owedToBePaidBack);
         } else {
+            data.setValueAddedTaxOnInput(tax);
             data.setValueAddedTaxPrivateUse(BigInteger.ZERO);
+            data.setValueAddedTaxSuppliesServicesGeneralTariff(tax);
+            data.setValueAddedTaxOwedToBePaidBack(BigInteger.ZERO);
         }
-        data.setValueAddedTaxOwed(owed);
-        BigInteger owedToBePaidBack = owed.subtract(data.getValueAddedTaxOnInput());
-        data.setValueAddedTaxOwedToBePaidBack(owedToBePaidBack);
         return data;
     }
 

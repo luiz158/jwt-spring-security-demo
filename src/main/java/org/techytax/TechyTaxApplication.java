@@ -1,44 +1,15 @@
 package org.techytax;
 
 import lombok.extern.java.Log;
-import org.h2.tools.Server;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.web.support.SpringBootServletInitializer;
-
-import java.sql.SQLException;
 
 @SpringBootApplication
 @Log
-public class TechyTaxApplication extends SpringBootServletInitializer {
+public class TechyTaxApplication {
 
-    public static void main(String[] args) throws SQLException {
-//        startH2Server();
+    public static void main(String[] args) {
         SpringApplication.run(TechyTaxApplication.class, args);
-}
-
-    @Override
-    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        startH2Server();
-        return application.sources(TechyTaxApplication.class);
     }
 
-    private static void startH2Server() {
-        try {
-            Server h2Server = Server.createTcpServer("-tcpAllowOthers").start();
-//            Class.forName("org.h2.Driver");
-//            DriverManager.getConnection("jdbc:h2:tcp://localhost/~/tt_db;MODE=H2;AUTO_SERVER=TRUE", "sa", "");
-
-            Server.createWebServer().start();
-            if (h2Server.isRunning(true)) {
-                log.info("H2 server was started and is running.");
-            } else {
-                throw new RuntimeException("Could not start H2 server.");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Failed to start H2 server: ", e);
-        }
-    }
 }

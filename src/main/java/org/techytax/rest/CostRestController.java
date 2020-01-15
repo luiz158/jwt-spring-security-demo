@@ -39,7 +39,7 @@ public class CostRestController {
 
     @RequestMapping(value = "auth/costs/{id}", method = RequestMethod.GET)
     public Cost getCost(HttpServletRequest request, @PathVariable Long id) {
-        return costRepository.findOne(id);
+        return costRepository.findById(id).get();
     }
 
     @RequestMapping(value = "auth/cost", method = { RequestMethod.PUT, RequestMethod.POST })
@@ -51,7 +51,7 @@ public class CostRestController {
 
     @RequestMapping(value = "auth/cost/{id}", method = RequestMethod.DELETE)
     public void deleteCost(HttpServletRequest request, @PathVariable Long id) {
-        costRepository.delete(id);
+        costRepository.deleteById(id);
     }
 
     private String getUser(HttpServletRequest request) {

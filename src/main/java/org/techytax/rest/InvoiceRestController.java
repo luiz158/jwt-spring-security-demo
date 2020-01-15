@@ -71,7 +71,7 @@ public class InvoiceRestController {
 
     @RequestMapping(value = "auth/invoice/{id}", method = RequestMethod.GET)
     public ResponseEntity<byte[]> createInvoicePdf(HttpServletRequest request, @PathVariable Long id) {
-        Invoice invoice = invoiceRepository.findOne(id);
+        Invoice invoice = invoiceRepository.findById(id).get();
         String username = getUser(request);
         Registration registration = registrationRepository.findByUser(username).stream().findFirst().get();
         byte[] contents = invoiceCreator.createPdfInvoice(invoice, registration);
@@ -99,7 +99,7 @@ public class InvoiceRestController {
 
     @RequestMapping(value = "auth/invoice/{id}/send", method = RequestMethod.POST)
     public ResponseEntity.BodyBuilder sendInvoicePdf(HttpServletRequest request, @PathVariable Long id, @RequestBody String htmlText) throws Exception {
-        Invoice invoice = invoiceRepository.findOne(id);
+        Invoice invoice = invoiceRepository.findById(id).get();
         String username = getUser(request);
         Registration registration = registrationRepository.findByUser(username).stream().findFirst().get();
         invoice.setUser(username);
@@ -121,7 +121,7 @@ public class InvoiceRestController {
 
     @RequestMapping(value = "auth/invoice/{id}", method = RequestMethod.DELETE)
     public void deleteInvoice(HttpServletRequest request, @PathVariable Long id) {
-        invoiceRepository.delete(id);
+        invoiceRepository.deleteById(id);
     }
 
     private String getUser(HttpServletRequest request) {

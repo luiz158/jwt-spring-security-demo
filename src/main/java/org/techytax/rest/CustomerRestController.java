@@ -35,7 +35,7 @@ public class CustomerRestController {
 
     @RequestMapping(value = "auth/customer/{id}", method = RequestMethod.GET)
     public Customer getCustomer(HttpServletRequest request, @PathVariable Long id) {
-        return customerRepository.findOne(id);
+        return customerRepository.findById(id).get();
     }
 
     @RequestMapping(value = "auth/customer", method = { RequestMethod.PUT, RequestMethod.POST })
@@ -47,7 +47,7 @@ public class CustomerRestController {
 
     @RequestMapping(value = "auth/customer/{id}", method = RequestMethod.DELETE)
     public void deleteCustomer(HttpServletRequest request, @PathVariable Long id) {
-        customerRepository.delete(id);
+        customerRepository.deleteById(id);
     }
 
     private String getUser(HttpServletRequest request) {
