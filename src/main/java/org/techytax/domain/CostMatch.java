@@ -11,7 +11,7 @@ import javax.validation.constraints.Size;
 public class CostMatch {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id = 0L;
 
     @NotNull

@@ -78,6 +78,14 @@ public class FiscalRestController {
     @RequestMapping(value = "auth/fiscal-overview", method = RequestMethod.POST)
     public void sendFiscalData(HttpServletRequest request, @RequestBody VatReport vatReport) throws Exception {
         String username = getUser(request);
+        saveCosts(vatReport, username);
+        addBookValues(vatReport, username);
+        VatDeclarationData vatDeclarationData = createVatDeclarationData(username, vatReport);
+        String url = "http://localhost:8081/digipoort/vat";
+        restTemplate.postForEntity(url, vatDeclarationData, VatDeclarationData.class);
+    }
+
+    private void saveCosts(@RequestBody VatReport vatReport, String username) {
         if (vatReport.getTotalCarCosts().compareTo(ZERO) > 0) {
             Cost cost = new Cost();
             cost.setUser(username);
@@ -141,10 +149,6 @@ public class FiscalRestController {
             cost.setDescription("Total VAT in");
             costRepository.save(cost);
         }
-        addBookValues(vatReport, username);
-        VatDeclarationData vatDeclarationData = createVatDeclarationData(username, vatReport);
-        String url = "http://localhost:8081/digipoort/vat";
-        restTemplate.postForEntity(url, vatDeclarationData, VatDeclarationData.class);
     }
 
     private VatDeclarationData createVatDeclarationData(String username, VatReport vatReport) throws Exception {
