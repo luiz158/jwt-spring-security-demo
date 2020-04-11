@@ -31,6 +31,7 @@ public class Invoice {
     private String month;
 
     private float unitsOfWork;
+    private String originalInvoiceNumber;
     private int discountPercentage;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd")

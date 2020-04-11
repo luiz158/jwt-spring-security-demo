@@ -53,7 +53,11 @@ public class MailHelper {
 		helper.setBcc(bcc);
 		helper.setSubject(subj);
 		DataSource fds = new ByteArrayDataSource(invoiceBuf, "application/pdf");
-		helper.addAttachment("factuur.pdf", fds);
+		String fileName = "factuur.pdf";
+		if (invoice.getUnitsOfWork() < 0) {
+			fileName = "creditnota.pdf";
+		}
+		helper.addAttachment(fileName, fds);
 		javaMailSender.send(message);
 	}
 }
